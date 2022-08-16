@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>using_pcd</name>
+    <version>0.0.0</version>
+    <description>The using_pcd package</description>
+
+    <maintainer email="wj@todo.todo">wj</maintainer>
+    <license>TODO</license>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <depend>camel-euclid-vector</depend>
+    <depend>heightmap_core</depend>
+
+</package>

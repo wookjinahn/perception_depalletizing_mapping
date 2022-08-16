@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <name>depalletizing_mapping_rviz_plugin</name>
+  <version>1.0.0</version>
+  <description>RViz plugin for displaying heightmap</description>
+
+  <maintainer email="lexqrt2@pusan.ac.kr">wj</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rviz</build_depend>
+  <build_depend>qtbase5-dev</build_depend>
+  <build_depend>depalletizing_mapping_core</build_depend>
+  <build_depend>depalletizing_mapping_ros</build_depend>
+  <build_depend>depalletizing_mapping_msgs</build_depend>
+
+  <run_depend>libqt5-core</run_depend>
+  <run_depend>libqt5-gui</run_depend>
+  <run_depend>libqt5-widgets</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>depalletizing_mapping_core</run_depend>
+  <run_depend>depalletizing_mapping_ros</run_depend>
+  <run_depend>depalletizing_mapping_msgs</run_depend>
+
+  <export>
+      <rviz plugin="${prefix}/plugin_description.xml"/>
+  </export>
+</package>

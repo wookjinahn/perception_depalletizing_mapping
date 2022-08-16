@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.0.2)
+project(perception_depalletizing_mapping)
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+#add_subdirectory(depalletizing_mapping_msgs)
+add_subdirectory(depalletizing_mapping_core)
+add_subdirectory(depalletizing_mapping_ros)
+add_subdirectory(depalletizing_mapping_method)
+add_subdirectory(depalletizing_mapping_rviz_plugin)

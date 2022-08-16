@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>depalletizing_mapping_msgs</name>
+  <version>1.0.0</version>
+  <description>DepalletizingMap message type.</description>
+
+  <maintainer email="lexqrt2@pusan.ac.kr">wj</maintainer>
+  <license>TODO</license>
+  <url type="website">TODO</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>message_generation</depend>
+  <depend>std_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>geometry_msgs</depend>
+  <exec_depend>message_runtime</exec_depend>
+</package>

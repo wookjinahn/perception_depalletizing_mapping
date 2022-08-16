@@ -1,0 +1,8 @@
+<library path="lib/libheightmap_rviz_plugin">
+  <class name="depalletizing_mapping_rviz_plugin/DepalletizingMap"
+         type="depalletizing_mapping_rviz_plugin::DepalletizingMapDisplay"
+         base_class_type="rviz::Display">
+    <description>Displays depalletizing_mapping_msgs/DepalletizingMap. </description>
+    <message_type>depalletizing_mapping_msgs/DepalletizingMap</message_type>
+  </class>
+</library>
