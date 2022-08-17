@@ -10,9 +10,12 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <exec_depend>depalletizing_mapping_msgs</exec_depend>
+  <exec_depend>depalletizing_mapping_base</exec_depend>
   <exec_depend>depalletizing_mapping_core</exec_depend>
   <exec_depend>depalletizing_mapping_ros</exec_depend>
   <exec_depend>depalletizing_mapping_rviz_plugin</exec_depend>
+  <exec_depend>depalletizing_mapping_utils</exec_depend>
+  <exec_depend>depalletizing_mapping_demos</exec_depend>
 
   <export>
     <metapackage />

@@ -1,6 +1,5 @@
-#ifndef DEPALLETIZING_MAPPING_MAPDATANODEROS_HPP
-#define DEPALLETIZING_MAPPING_MAPDATANODEROS_HPP
-
+#ifndef DEPALLETIZING_MAPPING_ROS_MAPDATANODEROS_HPP
+#define DEPALLETIZING_MAPPING_ROS_MAPDATANODEROS_HPP
 
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud.h>
@@ -9,8 +8,9 @@
 #include <tf/transform_listener.h>
 #include <tf/transform_broadcaster.h>
 
+#include <depalletizing_mapping_core/depalletizing_mapping_base.hpp>
+#include <depalletizing_mapping_core/depalletizing_mapping_core.hpp>
 #include <depalletizing_mapping_msgs/DepalletizingMap.h>
-#include "depalletizing_mapping_core/depalletizing_mapping_core.hpp"
 
 namespace depalletizing_mapping
 {
@@ -53,4 +53,4 @@ private:
 
 }
 
-#endif //DEPALLETIZING_MAPPING_MAPDATANODEROS_HPP
+#endif //DEPALLETIZING_MAPPING_ROS_MAPDATANODEROS_HPP

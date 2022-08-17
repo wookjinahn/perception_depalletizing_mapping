@@ -1,9 +1,8 @@
 //
 // Created by wj on 22. 6. 7.
 //
-
-#ifndef CAMEL_PERCEPTION_HEIGHTMAP_HEIGHTMAPVISUAL_HPP
-#define CAMEL_PERCEPTION_HEIGHTMAP_HEIGHTMAPVISUAL_HPP
+#ifndef DEPALLETIZING_MAPPING_RVIZ_PLUGIN_DEPALLETIZINGMAPVISUAL_HPP
+#define DEPALLETIZING_MAPPING_RVIZ_PLUGIN_DEPALLETIZINGMAPVISUAL_HPP
 
 #include <OGRE/OgreMaterial.h>
 #include <OGRE/OgreSharedPtr.h>
@@ -13,7 +12,7 @@
 
 #include <depalletizing_mapping_core/depalletizing_mapping_core.hpp>
 #include <depalletizing_mapping_ros/depalletizing_mapping_ros.hpp>
-#include <heightmap_msgs/Heightmap.h>
+#include <depalletizing_mapping_msgs/DepalletizingMap.h>
 
 namespace Ogre
 {
@@ -27,7 +26,7 @@ namespace rviz
 	class Shape;
 }
 
-namespace heightmap_rviz_plugin
+namespace depalletizing_mapping_rviz_plugin
 {
 	class DepalletizingMapVisual
 	{
@@ -35,7 +34,7 @@ namespace heightmap_rviz_plugin
 		DepalletizingMapVisual(Ogre::SceneManager* sceneManager, Ogre::SceneNode* parentNode);
 		virtual ~DepalletizingMapVisual();
 
-		void SetMessage(const heightmap_msgs::HeightmapConstPtr& msg);
+		void SetMessage(const depalletizing_mapping_msgs::DepalletizingMapConstPtr& msg);
 
 		void SetFramePosition(const Ogre::Vector3& position);
 		void SetFrameOrientation(const Ogre::Quaternion& orientation);
@@ -55,4 +54,4 @@ namespace heightmap_rviz_plugin
 
 
 
-#endif //CAMEL_PERCEPTION_HEIGHTMAP_HEIGHTMAPVISUAL_HPP
+#endif //DEPALLETIZING_MAPPING_RVIZ_PLUGIN_DEPALLETIZINGMAPVISUAL_HPP

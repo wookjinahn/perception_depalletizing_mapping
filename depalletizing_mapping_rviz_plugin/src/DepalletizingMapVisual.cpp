@@ -13,13 +13,13 @@
 #include <rviz/uniform_string_stream.h>
 #include <chrono>
 
-#include "heightmap_rviz_plugin/HeightmapVisual.hpp"
+#include "depalletizing_mapping_rviz_plugin/DepalletizingMapVisual.hpp"
 #include <depalletizing_mapping_core/depalletizing_mapping_core.hpp>
 #include <depalletizing_mapping_ros/depalletizing_mapping_ros.hpp>
 
 namespace depalletizing_mapping_rviz_plugin
 {
-	HeightmapVisual::HeightmapVisual(Ogre::SceneManager* sceneManager, Ogre::SceneNode* parentNode)
+    DepalletizingMapVisual::DepalletizingMapVisual(Ogre::SceneManager* sceneManager, Ogre::SceneNode* parentNode)
 	{
 		mSceneManager = sceneManager;
 		mFrameNode = parentNode->createChildSceneNode();
@@ -31,7 +31,7 @@ namespace depalletizing_mapping_rviz_plugin
 // 		-> move to SetMessgae Function
 	}
 
-	HeightmapVisual::~HeightmapVisual()
+    DepalletizingMapVisual::~DepalletizingMapVisual()
 	{
 		// Destroy the frame node.
 		mSceneManager->destroySceneNode(mFrameNode);
@@ -39,7 +39,7 @@ namespace depalletizing_mapping_rviz_plugin
 
 //	scale.x is diameter in x direction, scale.y in y direction, by setting these to different values you get an ellipse instead of a circle.
 //	Use scale.z to specify the height.
-	void HeightmapVisual::SetMessage(const heightmap_msgs::Heightmap::ConstPtr& msg)
+	void DepalletizingMapVisual::SetMessage(const depalletizing_mapping_msgs::DepalletizingMap::ConstPtr& msg)
 	{
         ROS_INFO("SetMessage");
 		// move from constructor for solve core dumped!
@@ -81,17 +81,17 @@ namespace depalletizing_mapping_rviz_plugin
         ROS_INFO("SetMessage End");
 	}
 
-	void HeightmapVisual::SetFramePosition(const Ogre::Vector3& position)
+	void DepalletizingMapVisual::SetFramePosition(const Ogre::Vector3& position)
 	{
 		mFrameNode->setPosition(position);
 	}
 
-	void HeightmapVisual::SetFrameOrientation(const Ogre::Quaternion& orientation)
+	void DepalletizingMapVisual::SetFrameOrientation(const Ogre::Quaternion& orientation)
 	{
 		mFrameNode->setOrientation(orientation);
 	}
 
-	void HeightmapVisual::SetColor(float r, float g, float b, float a)
+	void DepalletizingMapVisual::SetColor(float r, float g, float b, float a)
 	{
 		for (int i = 0; i < mCylinderShapes.size(); i++)
 		{
@@ -99,7 +99,7 @@ namespace depalletizing_mapping_rviz_plugin
 		}
 	}
 
-	void HeightmapVisual::SetColor(float a)
+	void DepalletizingMapVisual::SetColor(float a)
 	{
 		for (int i = 0; i < mCylinderShapes.size(); i++)
 		{

@@ -9,8 +9,9 @@ find_package(catkin REQUIRED
         roscpp
         sensor_msgs
         tf
-        heightmap_core
-        heightmap_msgs
+        depalletizing_mapping_base
+        depalletizing_mapping_core
+        depalletizing_mapping_msgs
 )
 
 ###################################
@@ -31,6 +32,7 @@ catkin_package(
             roscpp
             sensor_msgs
             tf
+            depalletizing_mapping_base
             depalletizing_mapping_core
             depalletizing_mapping_msgs
         DEPENDS
@@ -55,10 +57,6 @@ add_library(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
         ${catkin_LIBRARIES}
 )
-#
-#add_dependencies(${PROJECT_NAME}
-#        ${catkin_EXPORTEDT_TARGET}
-#)
 
 #############
 ## Install ##
@@ -78,7 +76,3 @@ install(
         DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
         FILES_MATCHING PATTERN "*.hpp"
 )
-
-#
-#add_executable(depalletizing_mapping_ros src/topic.cpp src/depalletizing_mapping.cpp)
-#target_link_libraries(depalletizing_mapping_ros ${catkin_LIBRARIES})

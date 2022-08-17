@@ -6,8 +6,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED    # listed in package.xml
-#        roscpp
-)
+            roscpp
+            depalletizing_mapping_base
+        )
 
 ###################################
 ## catkin specific configuration ##
@@ -20,13 +21,14 @@ find_package(catkin REQUIRED    # listed in package.xml
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(                 # Specify build export information
         INCLUDE_DIRS            # Derectories with header files
-            include
+        ../depalletizing_mapping_utils/include
         LIBRARIES               # Libraries created in this project
             ${PROJECT_NAME}
         CATKIN_DEPENDS          # Packages dependent projects also need
-#            roscpp
+            roscpp
+            depalletizing_mapping_base
         DEPENDS                 # System dependencies dependent projects also need -> listed in package.xml
-)
+        )
 
 ###########
 ## Build ##
@@ -36,21 +38,19 @@ catkin_package(                 # Specify build export information
 include_directories(            # Specify locations of header files
         include
         SYSTEM
-            ${catkin_INCLUDE_DIRS}
-)
+        ${catkin_INCLUDE_DIRS}
+        )
 
 ## Declare a cpp library
 add_library(${PROJECT_NAME}
-        src/BoundingBox.cpp
-        src/MapDataNode.cpp
-        src/Point2D.cpp
-        src/Point3D.cpp
-        src/MapTreeNode.cpp
-)
+        src/KMeans.cpp
+        src/PlaneModel.cpp
+        src/Ransac.cpp
+        )
 
 target_link_libraries(${PROJECT_NAME}
         ${catkin_LIBRARIES}
-)
+        )
 
 #############
 ## Install ##

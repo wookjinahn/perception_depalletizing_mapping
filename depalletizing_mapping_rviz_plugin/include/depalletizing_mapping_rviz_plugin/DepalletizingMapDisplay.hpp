@@ -4,8 +4,8 @@
 
 // setting about "Displays" panel in rviz
 
-#ifndef CAMEL_PERCEPTION_HEIGHTMAP_HEIGHTMAPDISPLAY_HPP
-#define CAMEL_PERCEPTION_HEIGHTMAP_HEIGHTMAPDISPLAY_HPP
+#ifndef DEPALLETIZING_MAPPING_RVIZ_PLUGIN_DEPALLETIZINGMAPDISPLAY_HPP
+#define DEPALLETIZING_MAPPING_RVIZ_PLUGIN_DEPALLETIZINGMAPDISPLAY_HPP
 #ifndef Q_MOC_RUN
 #include <depalletizing_mapping_ros/depalletizing_mapping_ros.hpp>
 #include <depalletizing_mapping_msgs/DepalletizingMap.h>
@@ -27,10 +27,10 @@ namespace rviz
 	class ColorProperty;
 }
 
-namespace heightmap_rviz_plugin
+namespace depalletizing_mapping_rviz_plugin
 {
-	class HeightmapVisual;
-	class DepalletizingMapDisplay : public rviz::MessageFilterDisplay<heightmap_msgs::Heightmap>
+	class DepalletizingMapVisual;
+	class DepalletizingMapDisplay : public rviz::MessageFilterDisplay<depalletizing_mapping_msgs::DepalletizingMap>
 	{
 	Q_OBJECT
 	public:
@@ -48,16 +48,16 @@ namespace heightmap_rviz_plugin
 
 	private:
 		// Callback for incoming ROS messages
-		void processMessage(const heightmap_msgs::Heightmap::ConstPtr& msg);
+		void processMessage(const depalletizing_mapping_msgs::DepalletizingMap::ConstPtr& msg);
 
 		boost::mutex mMutex;
 		// Storage for the list of visuals
 		// circular buffer where data gets popped from the front (oldest) and pushed to the back (newest)
-		boost::circular_buffer<boost::shared_ptr<HeightmapVisual>> mVisuals;
+		boost::circular_buffer<boost::shared_ptr<DepalletizingMapVisual>> mVisuals;
 
 		// User-editable property variables.
 //		rviz::IntProperty* mQueueSizeProperty;
-		rviz::RosTopicProperty* mHeightmapTopicProperty;
+		rviz::RosTopicProperty* mDepalletizingMapTopicProperty;
 		rviz::IntProperty* mHistoryLengthProperty;
 		rviz::FloatProperty* mAlphaProperty;
 		rviz::ColorProperty* mColorProperty;
@@ -66,4 +66,4 @@ namespace heightmap_rviz_plugin
 	};
 }
 
-#endif //CAMEL_PERCEPTION_HEIGHTMAP_HEIGHTMAPDISPLAY_HPP
+#endif //DEPALLETIZING_MAPPING_RVIZ_PLUGIN_DEPALLETIZINGMAPDISPLAY_HPP

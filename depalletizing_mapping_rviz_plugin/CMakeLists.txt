@@ -7,6 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(catkin REQUIRED COMPONENTS
         rviz
+        depalletizing_mapping_base
         depalletizing_mapping_core
         depalletizing_mapping_ros
         depalletizing_mapping_msgs
@@ -19,6 +20,7 @@ catkin_package(
             ${PROJECT_NAME}
         CATKIN_DEPENDS
             rviz
+            depalletizing_mapping_base
             depalletizing_mapping_core
             depalletizing_mapping_ros
             depalletizing_mapping_msgs

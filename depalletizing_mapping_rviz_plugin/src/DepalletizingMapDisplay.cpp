@@ -15,8 +15,8 @@
 #include <rviz/properties/int_property.h>
 #include <rviz/frame_manager.h>
 
-#include "heightmap_rviz_plugin/DepalletizingMapDisplay.hpp"
-#include "heightmap_rviz_plugin/HeightmapVisual.hpp"
+#include "depalletizing_mapping_rviz_plugin/DepalletizingMapDisplay.hpp"
+#include "depalletizing_mapping_rviz_plugin/DepalletizingMapVisual.hpp"
 
 namespace depalletizing_mapping_rviz_plugin
 // Process when Add Heightmap plugin :  Constructor -> onInitialize (-> MFDClass::onInitialize(), updateHistoryLength())
@@ -82,7 +82,7 @@ namespace depalletizing_mapping_rviz_plugin
 	}
 
 	// Callback for incoming ROS messages
-	void DepalletizingMapDisplay::processMessage(const heightmap_msgs::Heightmap::ConstPtr& msg)
+	void DepalletizingMapDisplay::processMessage(const depalletizing_mapping_msgs::DepalletizingMap::ConstPtr& msg)
 	{
         ROS_INFO("processMessgae");
 		boost::mutex::scoped_lock lock(mMutex);
@@ -102,7 +102,7 @@ namespace depalletizing_mapping_rviz_plugin
 
 		// We are keeping a circular buffer of visual pointers.
 		// This gets the next one, or creates and stores it if the buffer is not full
-		boost::shared_ptr<HeightmapVisual> visual;
+		boost::shared_ptr<DepalletizingMapVisual> visual;
 
         ROS_INFO("processMessgae boost::shared_ptr<DepalletizingMapVisual> visual");
 		if( mVisuals.full() )
@@ -111,7 +111,7 @@ namespace depalletizing_mapping_rviz_plugin
 		}
 		else
 		{
-			visual.reset(new HeightmapVisual(context_->getSceneManager(), scene_node_));
+			visual.reset(new DepalletizingMapVisual(context_->getSceneManager(), scene_node_));
 		}
 
 		// Now set or update the contents of the chosen visual.

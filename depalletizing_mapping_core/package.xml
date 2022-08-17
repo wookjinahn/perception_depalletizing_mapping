@@ -1,13 +1,18 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>depalletizing_mapping_core</name>
-  <version>1.0.0</version>
-  <description>The depalletizing_mapping_core package</description>
+    <name>depalletizing_mapping_core</name>
+    <version>1.0.0</version>
+    <description>The depalletizing_mapping_core package</description>
 
-  <maintainer email="lexqrt2@pusan.ac.kr">wj</maintainer>
-  <license>TODO</license>
-  <url type="website">TODO</url>
+    <maintainer email="lexqrt2@pusan.ac.kr">wj</maintainer>
+    <license>TODO</license>
+    <url type="website">TODO</url>
 
-  <buildtool_depend>catkin</buildtool_depend>
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <depend>roscpp</depend>
+    <depend>sensor_msgs</depend>
+
+    <depend>depalletizing_mapping_base</depend>
 
 </package>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>depalletizing_mapping_demos</name>
+    <version>1.0.0</version>
+    <description>Demo of the depalletizing mapping library.</description>
+
+    <maintainer email="lexqrt2@pusan.ac.kr">wj</maintainer>
+    <license>TODO</license>
+    <url type="website">TODO</url>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <depend>roscpp</depend>
+    <depend>sensor_msgs</depend>
+    <depend>tf</depend>
+    <depend>depalletizing_mapping_core</depend>
+    <depend>depalletizing_mapping_ros</depend>
+    <depend>depalletizing_mapping_msgs</depend>
+
+</package>

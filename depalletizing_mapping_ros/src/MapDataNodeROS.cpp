@@ -127,7 +127,7 @@ namespace depalletizing_mapping
 // ======================= NEED TO !! ===========================
 	}
 
-	void MapDataNodeROS::ToHeightmapMsgs(heightmap_msgs::Heightmap& heightmap_msgs, float cameraHeight, camel::Point3D& odom)
+	void MapDataNodeROS::ToHeightmapMsgs(depalletizing_mapping_msgs::DepalletizingMap& depalletizing_mapping_msgs, float cameraHeight, Point3D& odom)
 	{
         std::cout << "ToHeightmapMsgs" << std::endl;
 //		MakeMapToPoints();
@@ -136,11 +136,11 @@ namespace depalletizing_mapping
 
         std::cout << "ToHeightmapMsgs : to msg" << std::endl;
 
-		heightmap_msgs.header.frame_id = "t265_base_frame";           // header
+        depalletizing_mapping_msgs.header.frame_id = "t265_base_frame";           // header
 //		depalletizing_mapping_msgs.header.frame_id = "depth_frame";           // header
-		heightmap_msgs.header.stamp = ros::Time::now();
-		heightmap_msgs.resolution = 0.03;
-		heightmap_msgs.points.resize(GetOutputPoints().size());
+        depalletizing_mapping_msgs.header.stamp = ros::Time::now();
+        depalletizing_mapping_msgs.resolution = 0.03;
+        depalletizing_mapping_msgs.points.resize(GetOutputPoints().size());
 
 		float rotationMatrix[3][3] = {{1.0f, 0.0f, 0.0f},
 									  {0.0f, (float)std::cos(mRotateDegree * D2R), (float)-std::sin(mRotateDegree * D2R)},
@@ -151,16 +151,16 @@ namespace depalletizing_mapping
 			float x = GetOutputPoints()[i].GetX();
 			float y = GetOutputPoints()[i].GetY();
 			float z = GetOutputPoints()[i].GetZ();
-			heightmap_msgs.points[i].x = rotationMatrix[0][0] * x + rotationMatrix[0][1] *  y + rotationMatrix[0][2] * z;
-			heightmap_msgs.points[i].y = -(cameraHeight-(rotationMatrix[1][0] * x + rotationMatrix[1][1] * y + rotationMatrix[1][2] * z));
-			heightmap_msgs.points[i].z = rotationMatrix[2][0] * x + rotationMatrix[2][1] *  y + rotationMatrix[2][2] * z;
+            depalletizing_mapping_msgs.points[i].x = rotationMatrix[0][0] * x + rotationMatrix[0][1] *  y + rotationMatrix[0][2] * z;
+            depalletizing_mapping_msgs.points[i].y = -(cameraHeight-(rotationMatrix[1][0] * x + rotationMatrix[1][1] * y + rotationMatrix[1][2] * z));
+            depalletizing_mapping_msgs.points[i].z = rotationMatrix[2][0] * x + rotationMatrix[2][1] *  y + rotationMatrix[2][2] * z;
 
-            camel::Point3D pastPoint = {x, y, z};
+            Point3D pastPoint = {x, y, z};
             mPastData.push_back(pastPoint);
 		}
 	}
 
-    void MapDataNodeROS::UpdateOldDataByOdom(camel::Point3D& odomPosition)
+    void MapDataNodeROS::UpdateOldDataByOdom(Point3D& odomPosition)
     {
         std::cout << "UpdateOldDataByOdom" << std::endl;
         float newPositionXRatio = static_cast<int>(odomPosition.GetX() / GetResolution());
@@ -168,7 +168,7 @@ namespace depalletizing_mapping
 
         for (int i = 0; i < mPastData.size(); i++)
         {
-            camel::Point3D oldPoint(mPastData[i].GetX() + (-newPositionYRatio) * GetResolution(), mPastData[i].GetY(), mPastData[i].GetZ() + newPositionXRatio * GetResolution());
+            Point3D oldPoint(mPastData[i].GetX() + (-newPositionYRatio) * GetResolution(), mPastData[i].GetY(), mPastData[i].GetZ() + newPositionXRatio * GetResolution());
 
             if (mPositionRange.IsConstained(oldPoint))
             {
