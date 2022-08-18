@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-#include <depalletizing_mapping_core/Point3D.hpp>
+#include <depalletizing_mapping_base/Point3D.hpp>
 
 namespace depalletizing_mapping
 {
@@ -27,7 +27,7 @@ namespace depalletizing_mapping
 
 		bool bIsInThreshold(const Point3D& data);
 	private:
-		std::vector<float> mParameters;		// 여러개의 plane이 생길 경우도 생각.
+		std::vector<float> mParameters;	
 
 		float mModelThreshold = 0.0f;
 

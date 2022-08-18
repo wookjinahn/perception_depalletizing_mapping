@@ -1,10 +1,13 @@
 # perception_depalletizing_mapping
 
+---
+![depalletizing_mapping](depalletizing_mapping_demos/data/depalletizing_mapping.gif)
+
 This package is used to generate depalletizing map for depalletizing system on ROS einvironment.  
 Package consists **depalletizing_mapping**.
 
 Author: Wookjin Ahn  
-Affiliation: CAMEL Lab.   
+Affiliation: CAMEL Lab @ Pusan National University.   
 Maintainer : Wookjin Ahn, lexqrt2@pusan.ac.kr, Inho Lee, inholee8@pusan.ac.kr
 
 # How to Install
@@ -20,8 +23,8 @@ The command below uses [catkin build](https://catkin-tools.readthedocs.io/en/lat
 you can use [catkin_make](http://wiki.ros.org/catkin/commands/catkin_make) instead of **catkin build**.
 ```bash
 cd ~/catkin_ws/src
-git clone https://github.com/PNUxCAMEL/camel-perception-depalletizingmap.git
-catkin build heightmap --save-config --cmake-args -DCMAKE_BUILD_TYPE=Release
+git clone https://github.com/wookjinAhn/perception_depalletizing_mapping.git
+catkin build depalletizing_mapping --save-config --cmake-args -DCMAKE_BUILD_TYPE=Release
 # using catkin_make instead of catkin build
 # cd ~/catkin_ws/
 # catkin_make -DCMAKE_BUILD_TYPE=Release
@@ -34,7 +37,7 @@ catkin build heightmap --save-config --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```bash
 cd ~/catkin_ws/src/
 catkin create pkg depalletizing_demo    # catkin_create_pkg using_msgs
-cd using_msgs
+cd depalletizing_demo
 clion .       # open CLion at package directory
 ```
 
@@ -45,9 +48,9 @@ Copy files _**depalletizing_demo.cpp, CMakeLists.txt, package.xml**_ into your c
 ### 3. build and run
 ```bash
 # before run, you should run realsense roslaunch.
-roslaunch realsense2_camera demo_pointcloud.launch
+roslaunch realsense2_camera depalletizing_demo.launch
 
-cd ~/catkin_ws/src/using_msgs
+cd ~/catkin_ws/src/depalletizing_demo
 catkin build depalletizing_demo        # catkin_make
 rosrun depalletizing_demo depalletizing_demo
 ```

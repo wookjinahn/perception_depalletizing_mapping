@@ -2,7 +2,7 @@
 // Created by wj on 22. 7. 25.
 //
 
-#include "depalletizing_mapping_utils/KMeans.hpp"
+#include "depalletizing_mapping_core/KMeans.hpp"
 
 namespace depalletizing_mapping
 {

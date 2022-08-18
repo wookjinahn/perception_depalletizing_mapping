@@ -42,10 +42,10 @@ include_directories(            # Specify locations of header files
 ## Declare a cpp library
 add_library(${PROJECT_NAME}
         src/BoundingBox.cpp
-        src/MapDataNode.cpp
+        src/DataNode.cpp
         src/Point2D.cpp
         src/Point3D.cpp
-        src/MapTreeNode.cpp
+        src/TreeNode.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

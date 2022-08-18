@@ -1,7 +1,7 @@
 
 #include <cmath>
 
-#include "depalletizing_mapping_core/Point2D.hpp"
+#include "depalletizing_mapping_base/Point2D.hpp"
 
 namespace depalletizing_mapping
 {

@@ -5,10 +5,10 @@
 #ifndef DEPALLETIZING_MAPPING_BASE_HPP
 #define DEPALLETIZING_MAPPING_BASE_HPP
 
+#include "BoundingBox.hpp"
+#include "DataNode.hpp"
 #include "Point2D.hpp"
 #include "Point3D.hpp"
-#include "BoundingBox.hpp"
-#include "MapDataNode.hpp"
-#include "MapTreeNode.hpp"
+#include "TreeNode.hpp"
 
-#endif //DEPALLETIZING_MAPPING_CORE_HPP
+#endif //DEPALLETIZING_MAPPING_BASE_HPP

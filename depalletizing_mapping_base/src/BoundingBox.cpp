@@ -1,5 +1,5 @@
 
-#include "depalletizing_mapping_core/BoundingBox.hpp"
+#include "depalletizing_mapping_base/BoundingBox.hpp"
 
 namespace depalletizing_mapping
 {

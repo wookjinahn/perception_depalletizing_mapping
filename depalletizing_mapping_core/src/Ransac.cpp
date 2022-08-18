@@ -1,8 +1,12 @@
 
-#include "depalletizing_mapping_utils/Ransac.hpp"
+#include "depalletizing_mapping_core/Ransac.hpp"
 
 namespace depalletizing_mapping
 {
+    Ransac::Ransac()
+    {
+    }
+
 	Ransac::Ransac(PlaneModel& model, std::vector<Point3D>& data, float modelThreshold, int maxIteration)
 		: mModel(model)
 		, mData(data)
@@ -81,44 +85,39 @@ namespace depalletizing_mapping
 
 	void Ransac::RunMulti()
 	{
-		int iter = 0;
 		int upperPointsNum = 100;
 		int getrandomOfUpper = 50;
-//		while (iter < mMaxIteration)
-//		{
-			std::vector<Point3D> upperPoints = getUpperPoints(upperPointsNum);
-			// for shuffle
-			auto rng = std::default_random_engine {};
-			std::shuffle(std::begin(upperPoints), std::end(upperPoints), rng);
 
-			mBestModelParameters.clear();
-			mResultData.clear();
-			mInlierNum = 0;
-			for (int i = 0; i < getrandomOfUpper; i++)
-			{
-				std::vector<Point3D> randomPoints = getRandomPoints(upperPoints);       // 가까운 거 50개 중 랜덤
+        std::vector<Point3D> upperPoints = getUpperPoints(upperPointsNum);
+        // for shuffle
+        auto rng = std::default_random_engine {};
+        std::shuffle(std::begin(upperPoints), std::end(upperPoints), rng);
 
-				mModel.FindParametersWithRandom(randomPoints);            // mModel->mParameters에 들어가 있음.
-				int inlierNum = getInlierNum(randomPoints);             // 가까운 거 뽑은 50개들 중에서 inlier
+        mBestModelParameters.clear();
+        mResultData.clear();
+        mInlierNum = 0;
+        for (int i = 0; i < getrandomOfUpper; i++)
+        {
+            std::vector<Point3D> randomPoints = getRandomPoints(upperPoints);       // 가까운 거 50개 중 랜덤
 
-				if (mInlierNum < inlierNum)    // update -> 가장 inlier 많은 파라미터 get
-				{
-					mBestModelParameters = mModel.GetParameters();        // get mModel->mParameters
-					mInlierNum = inlierNum;
-				}
-			}
-			if (!mBestModelParameters.empty())
-			{
-                GetResult();
-				if (!mResultData.empty())
-				{
-					PlaneModel bestModel(mResultData, mBestModelParameters);
-					mResultModel.push_back(bestModel);
-				}
-			}
+            mModel.FindParametersWithRandom(randomPoints);            // mModel->mParameters에 들어가 있음.
+            int inlierNum = getInlierNum(randomPoints);             // 가까운 거 뽑은 50개들 중에서 inlier
 
-//			iter += getrandomOfUpper;
-//		}
+            if (mInlierNum < inlierNum)    // update -> 가장 inlier 많은 파라미터 get
+            {
+                mBestModelParameters = mModel.GetParameters();        // get mModel->mParameters
+                mInlierNum = inlierNum;
+            }
+        }
+        if (!mBestModelParameters.empty())
+        {
+            GetResult();
+            if (!mResultData.empty())
+            {
+                PlaneModel bestModel(mResultData, mBestModelParameters);
+                mResultModel.push_back(bestModel);
+            }
+        }
 	}
 
 	void Ransac::GetResult()

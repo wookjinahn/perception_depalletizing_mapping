@@ -15,7 +15,7 @@
 namespace depalletizing_mapping
 {
 
-class MapTreeNodeROS : public depalletizing_mapping::MapTreeNode
+class MapTreeNodeROS : public depalletizing_mapping::TreeNode
 {
 public:
 	MapTreeNodeROS();

@@ -6,10 +6,12 @@ namespace depalletizing_mapping
 	MapDataNodeROS::MapDataNodeROS()
 		: depalletizing_mapping::MapDataNode()
 	{
-        BoundingBox positionRange(0, 0, 1.0f, 1.0f);
-        mPositionRange = positionRange;
-        std::cout << "positionRange : " << mPositionRange.GetX() << ", " << mPositionRange.GetZ() << ", " << mPositionRange.GetH() << ", " << mPositionRange.GetW() << std::endl;
 	}
+
+    MapDataNodeROS::MapDataNodeROS(Ransac& ransac)
+            : depalletizing_mapping::MapDataNode(ransac)
+    {
+    }
 
 	MapDataNodeROS::~MapDataNodeROS()
 	{
@@ -34,41 +36,6 @@ namespace depalletizing_mapping
 	{
 		return mRotateDegree * D2R;
 	}
-
-    void MapDataNodeROS::SetDataRange(float w, float h)
-    {
-        BoundingBox dataRange(0, 0, w, h);
-        mPositionRange = dataRange;
-    }
-
-    void MapDataNodeROS::SetDataRange(BoundingBox dataRange)
-    {
-        mPositionRange = dataRange;
-    }
-
-    BoundingBox MapDataNodeROS::GetDataRange() const
-    {
-        return mPositionRange;
-    }
-
-    void MapDataNodeROS::MakeMapToPointsWithOldData()
-    {
-        std::cout << "MakeMapToPointsWithOldData" << std::endl;
-        std::cout << "GetMapDataPair size : " << GetMapDataPair().size() << std::endl;
-        for (auto iter = mOldMapData.begin(); iter != mOldMapData.end(); ++iter)
-        {
-            GetMapDataPair().insert( {std::make_pair(iter->first.first, iter->first.second), iter->second} );
-        }
-        std::cout << "GetMapDataPair size : " << GetMapDataPair().size() << std::endl;
-
-        MakeMapToPoints();
-//        for (auto iter = GetMapDataPair().begin(); iter != GetMapDataPair().end(); ++iter)
-//        {
-//            Point3D pointXYZ = { iter->first.first, iter->second, iter->first.second };
-//            mOutputPoints.push_back(pointXYZ);
-//        }
-        std::cout << "MakeMapToPointsWithOldData END" << std::endl;
-    }
 
 	void MapDataNodeROS::FromMessage(sensor_msgs::PointCloud pointcloud_msg)
 	{
@@ -127,54 +94,146 @@ namespace depalletizing_mapping
 // ======================= NEED TO !! ===========================
 	}
 
-	void MapDataNodeROS::ToHeightmapMsgs(depalletizing_mapping_msgs::DepalletizingMap& depalletizing_mapping_msgs, float cameraHeight, Point3D& odom)
-	{
-        std::cout << "ToHeightmapMsgs" << std::endl;
-//		MakeMapToPoints();
-        UpdateOldDataByOdom(odom);
-        MakeMapToPointsWithOldData();
-
-        std::cout << "ToHeightmapMsgs : to msg" << std::endl;
-
-        depalletizing_mapping_msgs.header.frame_id = "t265_base_frame";           // header
-//		depalletizing_mapping_msgs.header.frame_id = "depth_frame";           // header
-        depalletizing_mapping_msgs.header.stamp = ros::Time::now();
-        depalletizing_mapping_msgs.resolution = 0.03;
-        depalletizing_mapping_msgs.points.resize(GetOutputPoints().size());
-
-		float rotationMatrix[3][3] = {{1.0f, 0.0f, 0.0f},
-									  {0.0f, (float)std::cos(mRotateDegree * D2R), (float)-std::sin(mRotateDegree * D2R)},
-									  {0.0f, (float)std::sin(mRotateDegree * D2R), (float)std::cos(mRotateDegree * D2R)}};
-
-		for (int i = 0; i < this->GetOutputPoints().size(); i++)
-		{
-			float x = GetOutputPoints()[i].GetX();
-			float y = GetOutputPoints()[i].GetY();
-			float z = GetOutputPoints()[i].GetZ();
-            depalletizing_mapping_msgs.points[i].x = rotationMatrix[0][0] * x + rotationMatrix[0][1] *  y + rotationMatrix[0][2] * z;
-            depalletizing_mapping_msgs.points[i].y = -(cameraHeight-(rotationMatrix[1][0] * x + rotationMatrix[1][1] * y + rotationMatrix[1][2] * z));
-            depalletizing_mapping_msgs.points[i].z = rotationMatrix[2][0] * x + rotationMatrix[2][1] *  y + rotationMatrix[2][2] * z;
-
-            Point3D pastPoint = {x, y, z};
-            mPastData.push_back(pastPoint);
-		}
-	}
-
-    void MapDataNodeROS::UpdateOldDataByOdom(Point3D& odomPosition)
+    void MapDataNodeROS::ToPCDForDepalletizer(const std::string& outputPath)
     {
-        std::cout << "UpdateOldDataByOdom" << std::endl;
-        float newPositionXRatio = static_cast<int>(odomPosition.GetX() / GetResolution());
-        float newPositionYRatio = static_cast<int>(odomPosition.GetY() / GetResolution());
+        MakeMapToPoints();
 
-        for (int i = 0; i < mPastData.size(); i++)
+        time_t t;
+        struct tm* timeinfo;
+        time(&t);
+        timeinfo = localtime(&t);
+
+        std::string hour, min;
+
+        if (timeinfo->tm_hour < 10) hour = "0" + std::to_string(timeinfo->tm_hour);
+        else hour = std::to_string(timeinfo->tm_hour);
+
+        if (timeinfo->tm_min < 10) min = "0" + std::to_string(timeinfo->tm_min);
+        else min = std::to_string(timeinfo->tm_min);
+
+        std::string filePath = outputPath + hour + min + ".pcd";
+
+        std::ofstream fout;
+        fout.open(filePath);
+
+        fout << "VERSION" << std::endl;
+        fout << "FIELDS x y z" << std::endl;
+        fout << "SIZE 4 4 4" << std::endl;
+        fout << "TYPE F F F" << std::endl;
+        fout << "COUNT 1 1 1" << std::endl;
+        fout << "WIDTH 1" << std::endl;
+        fout << "HEIGHT " << GetOutputPoints().size() << std::endl;
+        fout << "VIEWPOINT 0 0 0 1 0 0 0" << std::endl;
+        fout << "POINTS " << GetOutputPoints().size() << std::endl;
+        fout << "DATA ascii" << std::endl;
+
+        for (int i = 0; i < GetOutputPoints().size(); i++)
         {
-            Point3D oldPoint(mPastData[i].GetX() + (-newPositionYRatio) * GetResolution(), mPastData[i].GetY(), mPastData[i].GetZ() + newPositionXRatio * GetResolution());
+            fout << GetOutputPoints()[i].GetX() << " " << GetOutputPoints()[i].GetY() << " " << -(GetOutputPoints()[i].GetZ()) << "\n";
+        }
 
-            if (mPositionRange.IsConstained(oldPoint))
+        fout.close();
+    }
+
+    void MapDataNodeROS::FromMessagePointCloud2ForDepalletizer(sensor_msgs::PointCloud2 pointcloud2_msgs)
+    {
+        sensor_msgs::PointCloud2ConstIterator<float> iter_x(pointcloud2_msgs, "x");
+        sensor_msgs::PointCloud2ConstIterator<float> iter_y(pointcloud2_msgs, "y");
+        sensor_msgs::PointCloud2ConstIterator<float> iter_z(pointcloud2_msgs, "z");
+
+        for (; iter_x != iter_x.end(); ++iter_x, ++iter_y, ++iter_z){
+            // Check if the point is invalid
+            if (!std::isnan (*iter_x) && !std::isnan (*iter_y) && !std::isnan (*iter_z))
             {
-                mOldMapData.insert({ std::make_pair(oldPoint.GetNodeKey().GetX(), oldPoint.GetNodeKey().GetZ()), oldPoint.GetY() });
+                Point3D pointXYZ = { *iter_x, *iter_z, *iter_y };
+                SetInputPoint(pointXYZ);
             }
         }
-        std::cout << "mOldMapData : " << mOldMapData.size() << std::endl;
+    }
+
+    void MapDataNodeROS::FromMessagePointCloudForDepalletizer(sensor_msgs::PointCloud pointcloud_msgs)
+    {
+        for (int i = 0; i < pointcloud_msgs.points.size(); i++)
+        {
+            Point3D pointXYZ = { pointcloud_msgs.points[i].x, pointcloud_msgs.points[i].z, pointcloud_msgs.points[i].y };
+            SetInputPoint(pointXYZ);
+        }
+
+    }
+
+    void MapDataNodeROS::ToMessageForDepalletizer(std::string frame_id, sensor_msgs::PointCloud& output_pointcloud)		//camera1_depth_optical_frame
+    {
+        RunRansac();
+        RunKMeansClustering();
+
+//        output_pointcloud.header.frame_id = frame_id;           // header
+//        output_pointcloud.header.stamp = ros::Time::now();
+//        output_pointcloud.points.resize(GetRansac().GetResultModel()[0].GetData().size());     // points			//************************
+//
+//        for (int i = 0; i < output_pointcloud.points.size(); i++) {
+//            output_pointcloud.points[i].x = GetRansac().GetResultModel()[0].GetData()[i].GetX();                    //************************
+//            output_pointcloud.points[i].y = GetRansac().GetResultModel()[0].GetData()[i].GetY();                    //************************
+//            output_pointcloud.points[i].z = -(GetRansac().GetResultModel()[0].GetData()[i].GetZ());                    //************************
+//        }
+
+        output_pointcloud.header.frame_id = frame_id;           // header
+        output_pointcloud.header.stamp = ros::Time::now();
+        output_pointcloud.points.resize(GetKMeans().GetOutputData().size());     // points			//************************
+
+        for (int i = 0; i < output_pointcloud.points.size(); i++) {
+            output_pointcloud.points[i].x = GetKMeans().GetOutputData()[i].GetX();                    //************************
+            output_pointcloud.points[i].y = GetKMeans().GetOutputData()[i].GetY();                    //************************
+            output_pointcloud.points[i].z = -(GetKMeans().GetOutputData()[i].GetZ());                    //************************
+        }
+    }
+
+    std::vector<float> MapDataNodeROS::ToMessageForDepalletizerWithCenter(std::string frame_id, sensor_msgs::PointCloud& output_pointcloud)		//camera1_depth_optical_frame
+    {
+        std::vector<float> centerPoint;
+        centerPoint.reserve(3);
+        float planarCenterX = 0;
+        float planarCenterY = 0;
+        float planarCenterZ = 0;
+
+        RunRansac();
+        RunKMeansClustering();
+
+        output_pointcloud.header.frame_id = frame_id;           // header
+        output_pointcloud.header.stamp = ros::Time::now();
+        output_pointcloud.points.resize(GetKMeans().GetOutputData().size());     // points			//************************
+
+        for (int i = 0; i < output_pointcloud.points.size(); i++) {
+            Point3D outData = GetKMeans().GetOutputData()[i];
+            output_pointcloud.points[i].x = outData.GetX();                    //************************
+            output_pointcloud.points[i].y = outData.GetY();                    //************************
+            output_pointcloud.points[i].z = -(outData.GetZ());                    //************************
+            planarCenterX += -(outData.GetZ());
+            planarCenterY += -(outData.GetX());
+            planarCenterZ += -(outData.GetY()) + 0.016;
+        }
+
+        centerPoint = { planarCenterX / GetKMeans().GetOutputData().size(), planarCenterY / GetKMeans().GetOutputData().size(), planarCenterZ / GetKMeans().GetOutputData().size() };
+        return centerPoint;
+    }
+
+
+    void MapDataNodeROS::ToHeightmapMsgsForDepalletizer(std::string frame_id, depalletizing_mapping_msgs::DepalletizingMap& depalletizing_mapping_msgs, float cameraHeight)
+    {
+        depalletizing_mapping_msgs.header.frame_id = frame_id;           // header
+        depalletizing_mapping_msgs.header.stamp = ros::Time::now();
+        depalletizing_mapping_msgs.resolution = GetResolution();
+        depalletizing_mapping_msgs.points.resize(GetOutputPoints().size());
+
+        // outputpoints -> (x, z, y)
+        for (int i = 0; i < GetOutputPoints().size(); i++)
+        {
+            float x = GetOutputPoints()[i].GetX();
+            float y = GetOutputPoints()[i].GetY();
+            float z = -(GetOutputPoints()[i].GetZ());
+            depalletizing_mapping_msgs.points[i].x = x;
+            depalletizing_mapping_msgs.points[i].y = -(cameraHeight-y);
+            depalletizing_mapping_msgs.points[i].z = z;
+
+        }
     }
 }

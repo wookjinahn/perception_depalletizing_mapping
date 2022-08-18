@@ -1,7 +1,7 @@
 #ifndef DEPALLETIZING_MAPPING_BASE_BOUNDINGBOX_HPP
 #define DEPALLETIZING_MAPPING_BASE_BOUNDINGBOX_HPP
 
-#include "depalletizing_mapping_core/Point3D.hpp"
+#include "Point3D.hpp"
 
 namespace depalletizing_mapping
 {

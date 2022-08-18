@@ -1,0 +1,38 @@
+<launch>
+  <arg name="serial_no"             default="102422070470"/>
+  <arg name="json_file_path"        default=""/>
+  <arg name="camera"                default="camera"/>
+
+  <group ns="$(arg camera)">
+    <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+      <arg name="serial_no"         value="$(arg serial_no)"/>
+      <arg name="json_file_path"    value="$(arg json_file_path)"/>
+      <arg name="depth_width"       value="640"/>
+      <arg name="depth_height"      value="480"/>
+      <arg name="depth_fps"         value="30"/>
+      <arg name="color_width"       value="640"/>
+      <arg name="color_height"      value="480"/>
+      <arg name="color_fps"         value="30"/>
+      <arg name="enable_depth"      value="true"/>
+      <arg name="enable_color"      value="true"/>
+      <arg name="enable_infra1"     value="false"/>
+      <arg name="enable_infra2"     value="false"/>
+      <arg name="enable_fisheye"    value="false"/>
+      <arg name="enable_gyro"       value="false"/>
+      <arg name="enable_accel"      value="false"/>
+      <arg name="enable_pointcloud" value="true"/>
+      <arg name="enable_sync"       value="true"/>
+      <arg name="tf_prefix"         value="$(arg camera)"/>
+      <arg name="allow_no_texture_points"  	default="true"/>		<!-- for using depth fov. not image -->
+      <arg name="filters" default="pointcloud,disparity,spatial,temporal,decimation"/>
+    </include>
+
+    <node pkg="tf" type="static_transform_publisher" name="map_to_d435_pos" args="0.62 0 1.32 0 0 0 map camera_position 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="d435_pos_to_d435_link" args="0 0 0 0 1.5708 0 camera_position /$(arg camera)_link 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="camera_to_heightmap" args="0 0 0 -1.5708 0 0 /$(arg camera)_link height_frame 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_heightBase" args="0.62 0 0 -1.5708 0 -1.5708 map base_frame 100"/>
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_camera)/rviz/depalletizing_demo.rviz" required="true" />
+  </group>
+  
+</launch>

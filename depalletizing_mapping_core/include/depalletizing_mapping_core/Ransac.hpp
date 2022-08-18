@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <random>
 
-#include <depalletizing_mapping_core/Point3D.hpp>
+#include <depalletizing_mapping_base/Point3D.hpp>
 
 #include "PlaneModel.hpp"
 
@@ -19,6 +19,7 @@ namespace depalletizing_mapping
 	class Ransac
 	{
 	public:
+        Ransac();
 		Ransac(PlaneModel& model, std::vector<Point3D>& data, float modelThreshold, int maxIteration);
         Ransac(PlaneModel& model, float modelThreshold, int maxIteration);
         Ransac(PlaneModel& model, float modelThreshold);

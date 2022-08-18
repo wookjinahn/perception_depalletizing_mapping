@@ -1,5 +1,5 @@
 
-#include "depalletizing_mapping_utils/PlaneModel.hpp"
+#include "depalletizing_mapping_core/PlaneModel.hpp"
 
 namespace depalletizing_mapping
 {
