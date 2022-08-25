@@ -6,11 +6,11 @@ set(CMAKE_CXX_FLAGS "-std=c++14 ${CMAKE_CXX_FLAGS}")
 find_package(catkin REQUIRED COMPONENTS
         roscpp
         sensor_msgs
+        tf
         depalletizing_mapping_base
         depalletizing_mapping_core
         depalletizing_mapping_ros
         depalletizing_mapping_msgs
-        tf
 )
 
 find_package(camel-euclid-vector REQUIRED)
@@ -35,6 +35,6 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(depalletizing_demo main.cpp)
+add_executable(depalletizing_demo depalletizing_demo.cpp DepalletizingDemo.cpp)
 
-target_link_libraries(depalletizing_demo ${catkin_LIBRARIES} camel-euclid-vector)
+target_link_libraries(depalletizing_demo ${catkin_LIBRARIES})

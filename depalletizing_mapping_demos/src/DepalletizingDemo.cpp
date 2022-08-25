@@ -1,0 +1,4 @@
+namespace depalletizing_demo {
+
+
+}

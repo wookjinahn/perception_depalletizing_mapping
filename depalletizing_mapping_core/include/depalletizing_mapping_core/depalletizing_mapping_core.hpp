@@ -1,6 +1,3 @@
-//
-// Created by wj on 22. 8. 17.
-//
 
 #ifndef DEPALLETIZING_MAPPING_CORE_HPP
 #define DEPALLETIZING_MAPPING_CORE_HPP
