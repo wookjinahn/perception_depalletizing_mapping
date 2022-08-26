@@ -70,7 +70,6 @@ namespace depalletizing_mapping
 		}
 		fin.close();
 
-		std::cout << "FromPCD : " << mData.size() << std::endl;
 	}
 
 	void KMeans::ToPCD(const std::vector<Point3D>& data, int num)
@@ -125,7 +124,6 @@ namespace depalletizing_mapping
 			assignCentroid();
 			while (bUpdateCentroid())
 			{
-				std::cout << "iterate" << std::endl;
 				iterateNum++;
 				assignCentroid();
 			}
@@ -140,7 +138,6 @@ namespace depalletizing_mapping
 				iterate = true;
 			}
 		}
-		std::cout << "iterate result : " << iterateNum << std::endl;
 		clustering();
 	}
 
@@ -150,7 +147,6 @@ namespace depalletizing_mapping
 		{
 			ToPCD(mModels[i].GetData(), i);
 		}
-		std::cout << "save model num : " << mModels.size() << std::endl;
 	}
 
     void KMeans::SaveOneResult()
@@ -174,7 +170,6 @@ namespace depalletizing_mapping
 		std::uniform_real_distribution<float> randomZ(minZ, maxZ);
 
 		Point2D centroid = { randomX(generator), randomZ(generator) };
-		std::cout << "setInitialCentroid -> random centroid : " << centroid.GetX() << ", " << centroid.GetZ() << std::endl;
 		mCentroids.push_back(centroid);
 	}
 
@@ -188,15 +183,8 @@ namespace depalletizing_mapping
 				distanceBetweenCentroid.push_back(mData[i].DistanceBetween2D(mCentroids[j]));
 			}
 
-//			if (distanceBetweenCentroid.size() == 1)
-//			{
-//				mData[i].SetCentroid(mCentroids[0]);
-//			}
-//			else
-//			{
 			int minDistanceCentroidIndex = std::min_element(distanceBetweenCentroid.begin(), distanceBetweenCentroid.end()) - distanceBetweenCentroid.begin();
 			mData[i].SetCentroid(mCentroids[minDistanceCentroidIndex]);
-//			}
 		}
 	}
 
@@ -235,8 +223,6 @@ namespace depalletizing_mapping
 
 				mCentroids[cenIndex].SetX(updateX);
 				mCentroids[cenIndex].SetZ(updateZ);
-
-				std::cout << "bUpdateCentroid -> mCentroids : " << mCentroids[cenIndex].GetX() << ", " << mCentroids[cenIndex].GetZ() << std::endl;
 
 				checkUpdates.push_back(checkUpdate);
 			}
@@ -280,15 +266,12 @@ namespace depalletizing_mapping
 			}
 			if (dataNum !=0)
 			{
-				std::cout << "bFindNearRate : dataNum : " << dataNum << ", nearNum : " << nearNum << std::endl;
 				if (nearNum < nearNumParameter)
 				{
-					std::cout << "bFindNearRate : Need to separate Centroid" << std::endl;
 					return false;
 				}
 			}
 		}
-		std::cout << "bFindNearRate : Good Centroid" << std::endl;
 		return true;
 	}
 

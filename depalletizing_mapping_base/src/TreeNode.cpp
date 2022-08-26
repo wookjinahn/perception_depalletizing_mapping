@@ -10,7 +10,7 @@ namespace depalletizing_mapping
 	{
 		DataNode heightmap;
 		mMapDataNode = &heightmap;
-		BoundingBox boundary(-1.0f, 1.0f, 2.0f);
+		BoundingBox boundary(0, 0, 0.5, 0.5);
         mBoundindBox = boundary;
 		mCapacityPoints.reserve(mCapacity);
         mMapDataNode->SetBoundingBox(mBoundindBox);
@@ -20,7 +20,7 @@ namespace depalletizing_mapping
 	TreeNode::TreeNode(DataNode* mapDataNode)
 		: mMapDataNode(mapDataNode)
 	{
-		BoundingBox boundary(-1.0f, 1.0f, 2.0f);
+		BoundingBox boundary(0, 0, 0.5, 0.5);
         mBoundindBox = boundary;
 		mCapacityPoints.reserve(mCapacity);
         mMapDataNode->SetBoundingBox(mBoundindBox);
@@ -119,18 +119,28 @@ namespace depalletizing_mapping
 		mCapacityPoints.reserve(mCapacity);
 	}
 
-	void TreeNode::InsertMapTreeNode(std::vector<Point3D>& points)
+	void TreeNode::ProcessData(std::vector<Point3D>& points)
 	{
-		for (int i = 0; i < points.size(); i++)
-		{
-			int depth = 0;
-			insertNodeRecursive(points[i], mMapDataNode, depth);
-		}
-
-        mMapDataNode->MakeMapToPoints();
+        insertTreeNode(points);
 	}
 
-    void TreeNode::InsertMapTreeNode()
+    void TreeNode::ProcessData()
+    {
+        insertTreeNode();
+    }
+
+    void TreeNode::insertTreeNode(std::vector<Point3D>& points)
+    {
+        for (int i = 0; i < points.size(); i++)
+        {
+            int depth = 0;
+            insertNodeRecursive(points[i], mMapDataNode, depth);
+        }
+
+        mMapDataNode->MakeMapToPoints();
+    }
+
+    void TreeNode::insertTreeNode()
     {
         std::vector<Point3D> points = mMapDataNode->SamplingPoints(5000);
 

@@ -25,10 +25,12 @@ namespace depalletizing_mapping
         std::vector<PlaneModel> GetDetectedPlanes() const;
         void SetDetectedPlanes(std::vector<PlaneModel>& detectedPlanes);
 
-        void RunRansac();
-        void RunKMeansClustering();
+        void Run();
 
     private:
+        void runRansac();
+        void runKMeansClustering();
+
         KMeans mKMeans;
         Ransac mRansac;
         PlaneModel mPlaneModel;

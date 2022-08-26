@@ -54,39 +54,18 @@ cd depalletizing_demo
 clion .                                 # open CLion at package directory
 ```
 
-### 3. Create and config main.cpp, CMakeLists.txt, package.xml
-Example Codes can be found at [here](https://github.com/wookjinAhn/perception_depalletizing_mapping/tree/master/depalletizing_mapping_demos)  
-Copy files into your catkin package directory.  
-**include/DepalletizingMappingDemo.hpp, src/DepalletizingMappingDemo.cpp, src/depalletizing_demo.cpp, CMakeLists/CMakeLists.txt, pacakgexml/package.xml**   
+### 3. Create and config depalletizing_demo.cpp, CMakeLists.txt, package.xml
+Example Codes can be found at [here](https://github.com/wookjinAhn/perception_depalletizing_mapping/tree/master/depalletizing_mapping_demos).  
+Copy files below into your catkin package directory.  
+**src/depalletizing_demo.cpp, CMakeLists/CMakeLists.txt, pacakgexml/package.xml**  
+
+You can find the details [here](https://github.com/wookjinAhn/perception_depalletizing_mapping/tree/master/depalletizing_mapping_demos).
+
+### 4. Set you Camera Position information at "depalletizing_demo.launch" and "depalletizing_demo.cpp"
+You can find the way [here](https://github.com/wookjinAhn/perception_depalletizing_mapping/tree/master/depalletizing_mapping_demos).
+
+### 5. Build and run
 ```bash
-cd ~/catkin_ws/src/depalletizing_demo
-mkdir include
-mkdir src
-
-# copy DepalletizingMappingDemo.hpp
-cd ~/catkin_ws/src/perception_depalletizing_mapping/depalletizing_mapping_demos/include/
-cp DepalletizingMappingDemo.hpp ~/catkin_ws/src/depalletizing_demo/include/
-
-# copy DepalletizingMappingDemo.cpp
-cd ~/catkin_ws/src/perception_depalletizing_mapping/depalletizing_mapping_demos/src/
-cp DepalletizingMappingDemo.cpp ~/catkin_ws/src/depalletizing_demo/src/
-
-# copy depalletizing_demo.cpp
-cd ~/catkin_ws/src/perception_depalletizing_mapping/depalletizing_mapping_demos/src/
-cp depalletizing_demo.cpp ~/catkin_ws/src/depalletizing_demo/src/
-
-# copy CMakeLists.txt
-cd ~/catkin_ws/src/perception_depalletizing_mapping/depalletizing_mapping_demos/CMakeLists/
-cp CMakeLists.txt ~/catkin_ws/src/depalletizing_demo/
-
-# copy package.xml
-cd ~/catkin_ws/src/perception_depalletizing_mapping/depalletizing_mapping_demos/packagexml/
-cp package.xml ~/catkin_ws/src/depalletizing_demo/
-```
-
-### 4. Build and run
-```bash
-# before run, you should run realsense roslaunch.
 roslaunch realsense2_camera depalletizing_demo.launch
 
 cd ~/catkin_ws/src/depalletizing_demo

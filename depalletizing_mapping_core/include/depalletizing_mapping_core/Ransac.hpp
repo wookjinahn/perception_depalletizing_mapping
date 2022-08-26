@@ -23,6 +23,7 @@ namespace depalletizing_mapping
 		Ransac(PlaneModel& model, std::vector<Point3D>& data, float modelThreshold, int maxIteration);
         Ransac(PlaneModel& model, float modelThreshold, int maxIteration);
         Ransac(PlaneModel& model, float modelThreshold);
+        Ransac(float modelThreshold);
 
 		void SetData(std::vector<Point3D>& data);
         void SetMaxIteration (int maxiteration);

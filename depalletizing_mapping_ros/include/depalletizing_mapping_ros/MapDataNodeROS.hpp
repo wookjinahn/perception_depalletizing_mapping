@@ -5,6 +5,7 @@
 #include <sensor_msgs/PointCloud.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/point_cloud2_iterator.h>
+#include <sensor_msgs/point_cloud_conversion.h>
 #include <tf/transform_listener.h>
 #include <tf/transform_broadcaster.h>
 
@@ -26,8 +27,9 @@ public:
 	double GetRotateDegree() const;
 	void SetRotateRadian(double rotateRadian);
 	double GetRotateRadian() const;
+    void SetCameraHeight(float cameraHeight);
+    float GetCameraHeight() const;
 
-    void FromMessage(sensor_msgs::PointCloud pointcloud_msg);
 	void ToMessage(std::string frame_id, sensor_msgs::PointCloud& output_pointcloud);
 	void FromMessagePointCloud2(sensor_msgs::PointCloud2 pointcloud2_msgs);
 	void ToMessagePointCloud2(std::string frame_id, sensor_msgs::PointCloud2& output_pointcloud2);
@@ -36,17 +38,15 @@ public:
 	void fromPointCloud2Msgs();
 
     // depalletizing
-    void ToPCDForDepalletizer(const std::string& outputPath);
     void FromMessagePointCloud2ForDepalletizer(sensor_msgs::PointCloud2 pointcloud2_msgs);
     void FromMessagePointCloudForDepalletizer(sensor_msgs::PointCloud pointcloud_msgs);
     void ToMessageForDepalletizer(std::string frame_id, sensor_msgs::PointCloud& output_pointcloud);
     std::vector<float> ToMessageForDepalletizerWithCenter(std::string frame_id, sensor_msgs::PointCloud& output_pointcloud);
-    void ToHeightmapMsgsForDepalletizer(std::string frame_id, depalletizing_mapping_msgs::DepalletizingMap& depalletizing_mapping_msgs, float cameraHeight);
+    std::vector<float> ToMessageForDepalletizerWithCenter(std::string frame_id, sensor_msgs::PointCloud2& output_pointcloud);
+    void ToHeightmapMsgsForDepalletizer(std::string frame_id, depalletizing_mapping_msgs::DepalletizingMap& depalletizing_mapping_msgs);
 
 private:
-
-    std::unordered_map<std::pair<float, float>, float, pair_hash> mOldMapData;
-
+    float mCameraHeight;
     std::vector<Point3D> mPastData;
     std::vector<Point3D> mOutputPoints;
 	float mRotateDegree;

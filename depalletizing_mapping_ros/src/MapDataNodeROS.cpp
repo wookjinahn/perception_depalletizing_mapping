@@ -6,10 +6,12 @@ namespace depalletizing_mapping
 	MapDataNodeROS::MapDataNodeROS()
 		: depalletizing_mapping::MapDataNode()
 	{
+        Ransac ransac;
+        SetRansac(ransac);
 	}
 
     MapDataNodeROS::MapDataNodeROS(Ransac& ransac)
-            : depalletizing_mapping::MapDataNode(ransac)
+        : depalletizing_mapping::MapDataNode(ransac)
     {
     }
 
@@ -37,14 +39,15 @@ namespace depalletizing_mapping
 		return mRotateDegree * D2R;
 	}
 
-	void MapDataNodeROS::FromMessage(sensor_msgs::PointCloud pointcloud_msg)
-	{
-		for(int i = 0; i < pointcloud_msg.points.size(); i++)
-		{
-			Point3D pointXYZ = {pointcloud_msg.points[i].x, pointcloud_msg.points[i].y, pointcloud_msg.points[i].z };
-            SetInputPoint(pointXYZ);
-		}
-	}
+    void MapDataNodeROS::SetCameraHeight(float cameraHeight)
+    {
+        mCameraHeight = cameraHeight;
+    }
+
+    float MapDataNodeROS::GetCameraHeight() const
+    {
+        return mCameraHeight;
+    }
 
 	void MapDataNodeROS::ToMessage(std::string frame_id, sensor_msgs::PointCloud& output_pointcloud)		//camera1_depth_optical_frame
 	{
@@ -87,53 +90,7 @@ namespace depalletizing_mapping
 
 	void MapDataNodeROS::ToMessagePointCloud2(std::string frame_id, sensor_msgs::PointCloud2& output_pointcloud2)
 	{
-// ======================= NEED TO !! ===========================
-// ======================= NEED TO !! ===========================
-// ======================= NEED TO !! ===========================
-// ======================= NEED TO !! ===========================
-// ======================= NEED TO !! ===========================
 	}
-
-    void MapDataNodeROS::ToPCDForDepalletizer(const std::string& outputPath)
-    {
-        MakeMapToPoints();
-
-        time_t t;
-        struct tm* timeinfo;
-        time(&t);
-        timeinfo = localtime(&t);
-
-        std::string hour, min;
-
-        if (timeinfo->tm_hour < 10) hour = "0" + std::to_string(timeinfo->tm_hour);
-        else hour = std::to_string(timeinfo->tm_hour);
-
-        if (timeinfo->tm_min < 10) min = "0" + std::to_string(timeinfo->tm_min);
-        else min = std::to_string(timeinfo->tm_min);
-
-        std::string filePath = outputPath + hour + min + ".pcd";
-
-        std::ofstream fout;
-        fout.open(filePath);
-
-        fout << "VERSION" << std::endl;
-        fout << "FIELDS x y z" << std::endl;
-        fout << "SIZE 4 4 4" << std::endl;
-        fout << "TYPE F F F" << std::endl;
-        fout << "COUNT 1 1 1" << std::endl;
-        fout << "WIDTH 1" << std::endl;
-        fout << "HEIGHT " << GetOutputPoints().size() << std::endl;
-        fout << "VIEWPOINT 0 0 0 1 0 0 0" << std::endl;
-        fout << "POINTS " << GetOutputPoints().size() << std::endl;
-        fout << "DATA ascii" << std::endl;
-
-        for (int i = 0; i < GetOutputPoints().size(); i++)
-        {
-            fout << GetOutputPoints()[i].GetX() << " " << GetOutputPoints()[i].GetY() << " " << -(GetOutputPoints()[i].GetZ()) << "\n";
-        }
-
-        fout.close();
-    }
 
     void MapDataNodeROS::FromMessagePointCloud2ForDepalletizer(sensor_msgs::PointCloud2 pointcloud2_msgs)
     {
@@ -163,18 +120,7 @@ namespace depalletizing_mapping
 
     void MapDataNodeROS::ToMessageForDepalletizer(std::string frame_id, sensor_msgs::PointCloud& output_pointcloud)		//camera1_depth_optical_frame
     {
-        RunRansac();
-        RunKMeansClustering();
-
-//        output_pointcloud.header.frame_id = frame_id;           // header
-//        output_pointcloud.header.stamp = ros::Time::now();
-//        output_pointcloud.points.resize(GetRansac().GetResultModel()[0].GetData().size());     // points			//************************
-//
-//        for (int i = 0; i < output_pointcloud.points.size(); i++) {
-//            output_pointcloud.points[i].x = GetRansac().GetResultModel()[0].GetData()[i].GetX();                    //************************
-//            output_pointcloud.points[i].y = GetRansac().GetResultModel()[0].GetData()[i].GetY();                    //************************
-//            output_pointcloud.points[i].z = -(GetRansac().GetResultModel()[0].GetData()[i].GetZ());                    //************************
-//        }
+        Run();
 
         output_pointcloud.header.frame_id = frame_id;           // header
         output_pointcloud.header.stamp = ros::Time::now();
@@ -195,8 +141,7 @@ namespace depalletizing_mapping
         float planarCenterY = 0;
         float planarCenterZ = 0;
 
-        RunRansac();
-        RunKMeansClustering();
+        Run();
 
         output_pointcloud.header.frame_id = frame_id;           // header
         output_pointcloud.header.stamp = ros::Time::now();
@@ -216,8 +161,46 @@ namespace depalletizing_mapping
         return centerPoint;
     }
 
+    std::vector<float> MapDataNodeROS::ToMessageForDepalletizerWithCenter(std::string frame_id, sensor_msgs::PointCloud2& output_pointcloud)		//camera1_depth_optical_frame
+    {
+        sensor_msgs::PointCloud pointcloud_msgs;
 
-    void MapDataNodeROS::ToHeightmapMsgsForDepalletizer(std::string frame_id, depalletizing_mapping_msgs::DepalletizingMap& depalletizing_mapping_msgs, float cameraHeight)
+        std::vector<float> centerPoint;
+        centerPoint.reserve(3);
+        float planarCenterX = 0;
+        float planarCenterY = 0;
+        float planarCenterZ = 0;
+
+        Run();
+//
+//        output_pointcloud.header.frame_id = frame_id;           // header
+//        output_pointcloud.header.stamp = ros::Time::now();
+//        output_pointcloud.points.resize(GetKMeans().GetOutputData().size());     // points			//************************
+        int outputPointSize = GetKMeans().GetOutputData().size();
+
+        //************************
+        pointcloud_msgs.header.frame_id = frame_id;           // header
+        pointcloud_msgs.header.stamp = ros::Time::now();
+        pointcloud_msgs.points.resize(outputPointSize);     // points			//************************
+
+        for (int i = 0; i < pointcloud_msgs.points.size(); i++) {
+            Point3D outData = GetKMeans().GetOutputData()[i];
+            pointcloud_msgs.points[i].x = outData.GetX();                    //************************
+            pointcloud_msgs.points[i].y = outData.GetY();                    //************************
+            pointcloud_msgs.points[i].z = -(outData.GetZ());                    //************************
+            planarCenterX += -(outData.GetZ());
+            planarCenterY += -(outData.GetX());
+            planarCenterZ += -(outData.GetY()) + 0.016;
+        }
+
+        sensor_msgs::convertPointCloudToPointCloud2(pointcloud_msgs, output_pointcloud);
+
+        centerPoint = { planarCenterX / GetKMeans().GetOutputData().size(), planarCenterY / GetKMeans().GetOutputData().size(), planarCenterZ / GetKMeans().GetOutputData().size() };
+        return centerPoint;
+    }
+
+
+    void MapDataNodeROS::ToHeightmapMsgsForDepalletizer(std::string frame_id, depalletizing_mapping_msgs::DepalletizingMap& depalletizing_mapping_msgs)
     {
         depalletizing_mapping_msgs.header.frame_id = frame_id;           // header
         depalletizing_mapping_msgs.header.stamp = ros::Time::now();
@@ -231,9 +214,8 @@ namespace depalletizing_mapping
             float y = GetOutputPoints()[i].GetY();
             float z = -(GetOutputPoints()[i].GetZ());
             depalletizing_mapping_msgs.points[i].x = x;
-            depalletizing_mapping_msgs.points[i].y = -(cameraHeight-y);
+            depalletizing_mapping_msgs.points[i].y = -(mCameraHeight-y);
             depalletizing_mapping_msgs.points[i].z = z;
-
         }
     }
 }

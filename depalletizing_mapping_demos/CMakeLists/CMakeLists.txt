@@ -17,7 +17,6 @@ find_package(camel-euclid-vector REQUIRED)
 
 catkin_package(
         INCLUDE_DIRS
-            include
         LIBRARIES
             {PROJECT_NAME}
         CATKIN_DEPENDS
@@ -35,6 +34,6 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(depalletizing_demo depalletizing_demo.cpp DepalletizingDemo.cpp)
+add_executable(depalletizing_demo depalletizing_demo.cpp)
 
 target_link_libraries(depalletizing_demo ${catkin_LIBRARIES})

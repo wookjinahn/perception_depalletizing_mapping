@@ -36,11 +36,13 @@ public:
 	void SetDepth(int depth);
 	void SetCapacity(int capacity);
 
-	void InsertMapTreeNode(std::vector<Point3D>& points);
-    void InsertMapTreeNode();
+	void ProcessData(std::vector<Point3D>& points);
+    void ProcessData();
 
 private:
-	void subdivideNode();
+    void insertTreeNode(std::vector<Point3D>& points);
+    void insertTreeNode();
+    void subdivideNode();
 	void insertNodeRecursive(Point3D& point, DataNode* mapDataNode, int depth);
 
 	DataNode* mMapDataNode = nullptr;

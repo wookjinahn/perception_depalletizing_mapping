@@ -3,11 +3,6 @@
 
 namespace depalletizing_mapping
 {
-//    DepalletizingMapping::DepalletizingMapping(Ransac& ransac, Model::Plane& planeModle)
-//		: mRansac(ransac)
-//		, mPlaneModel(planeModle)
-//    {
-//    }
     MapDataNode::MapDataNode()
     {
     }
@@ -61,7 +56,13 @@ namespace depalletizing_mapping
         mDetectedPlanes = detectedPlanes;
     }
 
-    void MapDataNode::RunRansac()
+    void MapDataNode::Run()
+    {
+        runRansac();
+        runKMeansClustering();
+    }
+
+    void MapDataNode::runRansac()
     {
         mRansac.SetMaxIteration(GetInputPoints().size());
 
@@ -71,7 +72,7 @@ namespace depalletizing_mapping
         mRansac.RunMulti();
     }
 
-    void MapDataNode::RunKMeansClustering()
+    void MapDataNode::runKMeansClustering()
     {
         mKMeans.SetData(mRansac.GetResultModel()[0].GetData());
         mKMeans.Run();

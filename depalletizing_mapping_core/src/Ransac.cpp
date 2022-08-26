@@ -5,6 +5,11 @@ namespace depalletizing_mapping
 {
     Ransac::Ransac()
     {
+        PlaneModel planeModel;
+        mModel = planeModel;
+        float modelThreshold = 0.005f;
+        mModel.SetModelThreshold(modelThreshold);
+        mModelThreshold = modelThreshold;
     }
 
 	Ransac::Ransac(PlaneModel& model, std::vector<Point3D>& data, float modelThreshold, int maxIteration)
@@ -26,9 +31,17 @@ namespace depalletizing_mapping
     }
 
     Ransac::Ransac(PlaneModel& model, float modelThreshold)
-            : mModel(model)
-            , mModelThreshold(modelThreshold)
+        : mModel(model)
+        , mModelThreshold(modelThreshold)
     {
+        mModel.SetModelThreshold(modelThreshold);
+        mModelThreshold = modelThreshold;
+    }
+
+    Ransac::Ransac(float modelThreshold)
+    {
+        PlaneModel planeModel;
+        mModel = planeModel;
         mModel.SetModelThreshold(modelThreshold);
         mModelThreshold = modelThreshold;
     }
