@@ -10,23 +10,22 @@ find_package(catkin REQUIRED COMPONENTS
         depalletizing_mapping_base
         depalletizing_mapping_core
         depalletizing_mapping_ros
-        depalletizing_mapping_msgs
-)
+        )
 
 find_package(camel-euclid-vector REQUIRED)
 
 catkin_package(
         INCLUDE_DIRS
+        #            include
         LIBRARIES
-            {PROJECT_NAME}
+        {PROJECT_NAME}
         CATKIN_DEPENDS
-            roscpp
-            sensor_msgs
-            tf
-            depalletizing_mapping_base
-            depalletizing_mapping_core
-            depalletizing_mapping_ros
-            depalletizing_mapping_msgs
+        roscpp
+        sensor_msgs
+        tf
+        depalletizing_mapping_base
+        depalletizing_mapping_core
+        depalletizing_mapping_ros
         DEPENDS
 )
 

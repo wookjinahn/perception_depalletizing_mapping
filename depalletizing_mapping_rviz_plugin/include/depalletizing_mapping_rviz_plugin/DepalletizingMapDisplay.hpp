@@ -34,7 +34,7 @@ namespace depalletizing_mapping_rviz_plugin
 	{
 	Q_OBJECT
 	public:
-		DepalletizingMapDisplay();
+        DepalletizingMapDisplay();
 		virtual ~DepalletizingMapDisplay();
 
 	protected:

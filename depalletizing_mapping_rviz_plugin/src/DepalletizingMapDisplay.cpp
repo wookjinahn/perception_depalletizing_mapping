@@ -24,7 +24,7 @@ namespace depalletizing_mapping_rviz_plugin
 // Process when Topic was set : reset (MFDClass::reset(), mVisuals.clear()) -> processMessage
 {
 	// Constructor, onInitialize function operate when Set plugin on Display panel
-	DepalletizingMapDisplay::DepalletizingMapDisplay()
+    DepalletizingMapDisplay::DepalletizingMapDisplay()
 	{
 		mHistoryLengthProperty = new rviz::IntProperty("History Length", 1,
 													   "Number of prior measurements to display.",

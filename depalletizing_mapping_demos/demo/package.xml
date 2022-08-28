@@ -2,7 +2,7 @@
 <package format="2">
   <name>depalletizing_demo</name>
   <version>0.0.0</version>
-  <description>The depalletizing_demo</description>
+  <description>The depalletizing_demo package</description>
 
   <maintainer email="wj@todo.todo">wj</maintainer>
   <license>TODO</license>
@@ -12,9 +12,9 @@
   <depend>roscpp</depend>
   <depend>sensor_msgs</depend>
   <depend>tf</depend>
+  <depend>camel-euclid-vector</depend>
   <depend>depalletizing_mapping_base</depend>
   <depend>depalletizing_mapping_core</depend>
   <depend>depalletizing_mapping_ros</depend>
-  <depend>depalletizing_mapping_msgs</depend>
 
 </package>

@@ -2,7 +2,7 @@
 <package>
   <name>depalletizing_mapping_rviz_plugin</name>
   <version>1.0.0</version>
-  <description>RViz plugin for displaying heightmap</description>
+  <description>RViz plugin for displaying depalletizing_map</description>
 
   <maintainer email="lexqrt2@pusan.ac.kr">wj</maintainer>
   <license>TODO</license>
