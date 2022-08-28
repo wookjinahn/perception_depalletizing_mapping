@@ -4,7 +4,7 @@
 namespace depalletizing_mapping
 {
 	BoundingBox::BoundingBox()
-		: mX(0.0f), mZ(0.0f), mW(0.0f), mH(0.0f)
+		: mX(0.0f), mZ(0.0f), mW(1.0f), mH(1.0f)
 	{
 	}
 
@@ -13,14 +13,6 @@ namespace depalletizing_mapping
 		, mZ(z)
 		, mW(w)
 		, mH(h)
-	{
-	}
-
-	BoundingBox::BoundingBox(float minX, float maxX, float z)
-		: mX((maxX + minX) / 2)
-		, mZ(z / 2)
-		, mW((maxX - minX) / 2)
-		, mH(z / 2)
 	{
 	}
 

@@ -11,8 +11,6 @@ class BoundingBox
 public:
 	BoundingBox();
 	BoundingBox(float x, float z, float w, float h);
-//        Boundary(float minX, float maxX, float y);
-	BoundingBox(float minX, float maxX, float z);
 
 	float GetX() const;
 	float GetZ() const;
