@@ -26,7 +26,9 @@ namespace depalletizing_mapping
         Ransac(float modelThreshold);
 
 		void SetData(std::vector<Point3D>& data);
+        void SetModelThreshold(float modelThreshold);
         void SetMaxIteration (int maxiteration);
+        int GetMaxIteration() const;
 
 		std::vector<Point3D> GetData() const;
 		std::vector<float> GetBestModelParameters() const;

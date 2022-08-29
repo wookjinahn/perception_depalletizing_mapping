@@ -64,7 +64,10 @@ namespace depalletizing_mapping
 
     void MapDataNode::runRansac()
     {
-        mRansac.SetMaxIteration(GetInputPoints().size());
+        if (mRansac.GetMaxIteration() != 0)
+        {
+            mRansac.SetMaxIteration(GetInputPoints().size());
+        }
 
         std::vector<Point3D> data = GetOutputPoints();
         std::sort(data.begin(), data.end(), Point3D::AscendingByY);

@@ -51,14 +51,24 @@ namespace depalletizing_mapping
 		mData = std::move(data);
 	}
 
-	std::vector<Point3D> Ransac::GetData() const
-	{
-		return mData;
-	}
+    void Ransac::SetModelThreshold(float modelThreshold)
+    {
+        mModel.SetModelThreshold(modelThreshold);
+    }
 
     void Ransac::SetMaxIteration (int maxiteration)
     {
         mMaxIteration = maxiteration;
+    }
+
+    int Ransac::GetMaxIteration() const
+    {
+        return mMaxIteration;
+    }
+
+    std::vector<Point3D> Ransac::GetData() const
+    {
+        return mData;
     }
 
 	std::vector<float> Ransac::GetBestModelParameters() const
