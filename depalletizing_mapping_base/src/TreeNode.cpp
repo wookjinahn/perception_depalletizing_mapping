@@ -119,12 +119,12 @@ namespace depalletizing_mapping
 		mCapacityPoints.reserve(mCapacity);
 	}
 
-	void TreeNode::ProcessData(std::vector<Point3D>& points)
+	void TreeNode::RunTreeProcess(std::vector<Point3D>& points)
 	{
         insertTreeNode(points);
 	}
 
-    void TreeNode::ProcessData()
+    void TreeNode::RunTreeProcess()
     {
         insertTreeNode();
     }

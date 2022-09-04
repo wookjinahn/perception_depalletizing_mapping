@@ -58,32 +58,122 @@ namespace depalletizing_mapping
 
     bool Point3D::AscendingByX(Point3D& firstPoint, Point3D& secondPoint)
     {
-        return firstPoint.GetX() < secondPoint.GetX();
+//        return firstPoint.GetX() < secondPoint.GetX();
+        if (firstPoint.GetX() == secondPoint.GetX())
+        {
+            if (firstPoint.GetY() == secondPoint.GetY())
+            {
+                return firstPoint.GetZ() < secondPoint.GetZ();
+            }
+            else
+            {
+                return firstPoint.GetY() < secondPoint.GetY();
+            }
+        }
+        else
+        {
+            return firstPoint.GetX() < secondPoint.GetY();
+        }
     }
 
     bool Point3D::AscendingByY(Point3D& firstPoint, Point3D& secondPoint)
     {
-        return firstPoint.GetY() < secondPoint.GetY();
+//        return firstPoint.GetY() < secondPoint.GetY();
+        if (firstPoint.GetY() == secondPoint.GetY())
+        {
+            if (firstPoint.GetZ() == secondPoint.GetZ())
+            {
+                return firstPoint.GetX() < secondPoint.GetX();
+            }
+            else
+            {
+                return firstPoint.GetZ() < secondPoint.GetZ();
+            }
+        }
+        else
+        {
+            return firstPoint.GetY() < secondPoint.GetY();
+        }
     }
 
     bool Point3D::AscendingByZ(Point3D& firstPoint, Point3D& secondPoint)
     {
-        return firstPoint.GetZ() < secondPoint.GetZ();
+//        return firstPoint.GetZ() < secondPoint.GetZ();
+        if (firstPoint.GetZ() == secondPoint.GetZ())
+        {
+            if (firstPoint.GetX() == secondPoint.GetX())
+            {
+                return firstPoint.GetY() < secondPoint.GetY();
+            }
+            else
+            {
+                return firstPoint.GetX() < secondPoint.GetX();
+            }
+        }
+        else
+        {
+            return firstPoint.GetZ() < secondPoint.GetZ();
+        }
     }
 
     bool Point3D::DescendingByX(Point3D& firstPoint, Point3D& secondPoint)
     {
-        return firstPoint.GetX() > secondPoint.GetX();
+//        return firstPoint.GetX() > secondPoint.GetX();
+        if (firstPoint.GetX() == secondPoint.GetX())
+        {
+            if (firstPoint.GetY() == secondPoint.GetY())
+            {
+                return firstPoint.GetZ() > secondPoint.GetZ();
+            }
+            else
+            {
+                return firstPoint.GetY() > secondPoint.GetY();
+            }
+        }
+        else
+        {
+            return firstPoint.GetX() > secondPoint.GetX();
+        }
     }
 
     bool Point3D::DescendingByY(Point3D& firstPoint, Point3D& secondPoint)
     {
-        return firstPoint.GetY() > secondPoint.GetY();
+//        return firstPoint.GetY() > secondPoint.GetY();
+        if (firstPoint.GetY() == secondPoint.GetY())
+        {
+            if (firstPoint.GetZ() == secondPoint.GetZ())
+            {
+                return firstPoint.GetX() > secondPoint.GetX();
+            }
+            else
+            {
+                return firstPoint.GetZ() > secondPoint.GetZ();
+            }
+        }
+        else
+        {
+            return firstPoint.GetY() > secondPoint.GetY();
+        }
     }
 
     bool Point3D::DescendingByZ(Point3D& firstPoint, Point3D& secondPoint)
     {
-        return firstPoint.GetZ() > secondPoint.GetZ();
+//        return firstPoint.GetZ() > secondPoint.GetZ();
+        if (firstPoint.GetZ() == secondPoint.GetZ())
+        {
+            if (firstPoint.GetX() == secondPoint.GetX())
+            {
+                return firstPoint.GetY() > secondPoint.GetY();
+            }
+            else
+            {
+                return firstPoint.GetX() > secondPoint.GetX();
+            }
+        }
+        else
+        {
+            return firstPoint.GetZ() > secondPoint.GetZ();
+        }
     }
 
     bool Point3D::bIsEqual(const Point3D& other) const
@@ -104,41 +194,61 @@ namespace depalletizing_mapping
         return mNodeKey;
     }
 
-	Point2D Point3D::GetCentroid() const
-	{
-		return mCentroid;
-	}
+    Point2D Point3D::GetCentroid() const
+    {
+        return mCentroid;
+    }
 
     void Point3D::SetNodeKey(const Point2D& nodeKey)
     {
-		mNodeKey = nodeKey;
+        mNodeKey = nodeKey;
     }
 
     void Point3D::SetNodeKeyXZ(const float x, const float z)
     {
-		mNodeKey.SetX(x);
-		mNodeKey.SetZ(z);
+        mNodeKey.SetX(x);
+        mNodeKey.SetZ(z);
     }
 
-	void Point3D::SetCentroid(const Point2D& centroid)
-	{
-		mCentroid = centroid;
-	}
+    void Point3D::SetCentroid(const Point2D& centroid)
+    {
+        mCentroid = centroid;
+    }
 
-	void Point3D::RotationRoll(float degree)
-	{
-		float rotationMatrix[3][3] = {{1.0f, 0.0f, 0.0f},
-									  {0.0f, (float)std::cos(degree * D2R), (float)-std::sin(degree * D2R)},
-									  {0.0f, (float)std::sin(degree * D2R), (float)std::cos(degree * D2R)}};
+    void Point3D::SetAngle(float angle)
+    {
+        mAngle = angle;
+    }
 
-		float rotatedX = rotationMatrix[0][0] * this->GetX() + rotationMatrix[0][1] *  this->GetY() + rotationMatrix[0][2] *  this->GetZ();
-		float rotatedY = rotationMatrix[1][0] * this->GetX() + rotationMatrix[1][1] *  this->GetY() + rotationMatrix[1][2] *  this->GetZ();
-		float rotatedZ = rotationMatrix[2][0] * this->GetX() + rotationMatrix[2][1] *  this->GetY() + rotationMatrix[2][2] *  this->GetZ();
-		this->SetXYZ(rotatedX, rotatedY, rotatedZ);
-	}
+    float Point3D::GetAngle() const
+    {
+        return mAngle;
+    }
 
-	float Point3D::DistanceBetween2D(const Point2D& other)
-	{
-		return std::sqrt((GetX() - other.GetX()) * (GetX() - other.GetX()) + (GetZ() - other.GetZ()) * (GetZ() - other.GetZ()));
-	}
+    void Point3D::SetDistance(float distance)
+    {
+        mDistance = distance;
+    }
+
+    float Point3D::GetDistance() const
+    {
+        return mDistance;
+    }
+
+    void Point3D::RotationRoll(float degree)
+    {
+        float rotationMatrix[3][3] = {{1.0f, 0.0f, 0.0f},
+                                      {0.0f, (float)std::cos(degree * D2R), (float)-std::sin(degree * D2R)},
+                                      {0.0f, (float)std::sin(degree * D2R), (float)std::cos(degree * D2R)}};
+
+        float rotatedX = rotationMatrix[0][0] * this->GetX() + rotationMatrix[0][1] *  this->GetY() + rotationMatrix[0][2] *  this->GetZ();
+        float rotatedY = rotationMatrix[1][0] * this->GetX() + rotationMatrix[1][1] *  this->GetY() + rotationMatrix[1][2] *  this->GetZ();
+        float rotatedZ = rotationMatrix[2][0] * this->GetX() + rotationMatrix[2][1] *  this->GetY() + rotationMatrix[2][2] *  this->GetZ();
+        this->SetXYZ(rotatedX, rotatedY, rotatedZ);
+    }
+
+    float Point3D::DistanceBetween2D(const Point2D& other)
+    {
+        return std::sqrt((GetX() - other.GetX()) * (GetX() - other.GetX()) + (GetZ() - other.GetZ()) * (GetZ() - other.GetZ()));
+    }
 }

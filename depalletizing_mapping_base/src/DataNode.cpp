@@ -71,6 +71,11 @@ namespace depalletizing_mapping
 		return mOutputPoints;
 	}
 
+    void DataNode::SetOutputPoint(const std::vector<Point3D>& outputPoint)
+    {
+        mOutputPoints = outputPoint;
+    }
+
 	void DataNode::SetInputPoint(Point3D point)
 	{
 		mInputPoints.push_back(point);

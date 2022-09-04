@@ -13,16 +13,18 @@ namespace depalletizing_mapping
 class Point3D
 {
 public:
-	Point3D();
-	Point3D(float x, float y, float z);
-
-    float GetX() const;
-    float GetY() const;
-    float GetZ() const;
+    Point3D();
+    Point3D(float x, float y, float z);
 
     void SetX(float x);
+    float GetX() const;
+
     void SetY(float y);
+    float GetY() const;
+
     void SetZ(float z);
+    float GetZ() const;
+
     void SetXYZ(float x, float y, float z) ;
 
     // sorting
@@ -37,21 +39,32 @@ public:
 
     float DistanceBetweenOther(const Point3D& other) const;
 
-	Point2D GetNodeKey() const;
-	Point2D GetCentroid() const;
+    void SetNodeKey(const Point2D& nodeKey);
+    void SetNodeKeyXZ(float const x, float const z);
+    Point2D GetNodeKey() const;
 
-	void SetNodeKey(const Point2D& nodeKey);
-	void SetNodeKeyXZ(float const x, float const z);
-	void SetCentroid(const Point2D& centroid);
+    void SetCentroid(const Point2D& centroid);
+    Point2D GetCentroid() const;
 
-	void RotationRoll(float degree);
+    void SetAngle(float angle);
+    float GetAngle() const;
 
-	float DistanceBetween2D(const Point2D& other);
+    void SetDistance(float distance);
+    float GetDistance() const;
+
+    void RotationRoll(float degree);
+
+    float DistanceBetween2D(const Point2D& other);
 
 private:
-    float mX, mY, mZ;
-	Point2D mNodeKey;
-	Point2D mCentroid;
+    float mX;
+    float mY;
+    float mZ;
+    Point2D mNodeKey;
+    Point2D mCentroid;
+
+    float mAngle;
+    float mDistance;
 };
 
 }

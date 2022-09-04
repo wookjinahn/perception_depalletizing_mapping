@@ -6,6 +6,7 @@
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/point_cloud2_iterator.h>
 #include <sensor_msgs/point_cloud_conversion.h>
+#include <geometry_msgs/PolygonStamped.h>
 #include <tf/transform_listener.h>
 #include <tf/transform_broadcaster.h>
 
@@ -30,6 +31,7 @@ public:
     void FromPointCloud2Msgs(sensor_msgs::PointCloud2 pointcloud2_msgs);
     std::vector<float> ToPointCloud2Msgs(std::string frame_id, sensor_msgs::PointCloud2& output_pointcloud);
     void ToDepalletizingMapMsgs(std::string frame_id, depalletizing_mapping_msgs::DepalletizingMap& depalletizing_mapping_msgs);
+    void ToPolygonMsgs(std::string frame_id, geometry_msgs::PolygonStamped& polygon_msgs);
 
 private:
     float mCameraHeight;

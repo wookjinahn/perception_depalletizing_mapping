@@ -4,8 +4,9 @@
 #include <depalletizing_mapping_base/depalletizing_mapping_base.hpp>
 
 #include "KMeans.hpp"
-#include "Ransac.hpp"
 #include "PlaneModel.hpp"
+#include "QuickHull.hpp"
+#include "Ransac.hpp"
 
 namespace depalletizing_mapping
 {
@@ -22,19 +23,27 @@ namespace depalletizing_mapping
         void SetRansac(Ransac& ransac);
         KMeans GetKMeans() const;
         void SetKMeans(KMeans& kmeans);
-        std::vector<PlaneModel> GetDetectedPlanes() const;
-        void SetDetectedPlanes(std::vector<PlaneModel>& detectedPlanes);
+        QuickHull GetQuickHull() const;
+        void SetQuickHull(QuickHull& quickHull);
+        std::vector<Point3D> GetDetectedPlanarPoints() const;
+        void SetDetectedPlanarPoints(const std::vector<Point3D>& detectedPlanarPoints);
+        std::vector<Point3D> GetDetectedPlanarPolygon() const;
+        void SetDetectedPlanarPolygon(const std::vector<Point3D>& detectedPlanarPolygon);
 
-        void Run();
+        void DetectPlanarRegion();
 
     private:
         void runRansac();
         void runKMeansClustering();
+        void runQuickHull();
 
-        KMeans mKMeans;
         Ransac mRansac;
         PlaneModel mPlaneModel;
-        std::vector<PlaneModel> mDetectedPlanes;
+        KMeans mKMeans;
+        QuickHull mQuickHull;
+
+        std::vector<Point3D> mDetectedPlanarPoints;
+        std::vector<Point3D> mDetectedPlanarPolygon;
     };
 }
 

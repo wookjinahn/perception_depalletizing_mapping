@@ -46,20 +46,47 @@ namespace depalletizing_mapping
         mKMeans = kmeans;
     }
 
-    std::vector<PlaneModel> MapDataNode::GetDetectedPlanes() const
+    QuickHull MapDataNode::GetQuickHull() const
     {
-        return mDetectedPlanes;
+        return mQuickHull;
     }
 
-    void MapDataNode::SetDetectedPlanes(std::vector<PlaneModel>& detectedPlanes)
+    void MapDataNode::SetQuickHull(QuickHull& quickHull)
     {
-        mDetectedPlanes = detectedPlanes;
+        mQuickHull = quickHull;
     }
 
-    void MapDataNode::Run()
+    std::vector<Point3D> MapDataNode::GetDetectedPlanarPoints() const
+    {
+        return mDetectedPlanarPoints;
+    }
+
+    void MapDataNode::SetDetectedPlanarPoints(const std::vector<Point3D>& detectedPlanarPoints)
+    {
+        mDetectedPlanarPoints = detectedPlanarPoints;
+    }
+
+    std::vector<Point3D> MapDataNode::GetDetectedPlanarPolygon() const
+    {
+        return mDetectedPlanarPolygon;
+    }
+
+    void MapDataNode::SetDetectedPlanarPolygon(const std::vector<Point3D>& detectedPlanarPolygon)
+    {
+        mDetectedPlanarPolygon =detectedPlanarPolygon;
+    }
+
+    void MapDataNode::DetectPlanarRegion()
     {
         runRansac();
         runKMeansClustering();
+        runQuickHull();
+
+        std::vector<Point3D> detectedPlanarPoints = mKMeans.GetOutputData();
+        SetDetectedPlanarPoints(detectedPlanarPoints);
+
+        std::vector<Point3D> detectedPlanarPolygon = mQuickHull.GetOutputData();
+        SetDetectedPlanarPolygon(detectedPlanarPolygon);
     }
 
     void MapDataNode::runRansac()
@@ -80,5 +107,12 @@ namespace depalletizing_mapping
         mKMeans.SetData(mRansac.GetResultModel()[0].GetData());
         mKMeans.Run();
         mKMeans.SaveOneResult();
+    }
+
+    void MapDataNode::runQuickHull()
+    {
+        std::vector<Point3D> detectedPlanarPoints = mKMeans.GetOutputData();
+        mQuickHull.SetInputData(detectedPlanarPoints);
+        mQuickHull.Run();
     }
 }

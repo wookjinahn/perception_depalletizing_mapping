@@ -48,6 +48,7 @@ public:
     void SetInputPoint(Point3D point);
 
 	std::vector<Point3D> GetOutputPoints() const;
+    void SetOutputPoint(const std::vector<Point3D>& outputPoint);
 
 	std::vector<Point3D> SamplingPointsWithRotate(int samplingNum, float rotationDegree);
 	std::vector<Point3D> SamplingPoints(int samplingNum);

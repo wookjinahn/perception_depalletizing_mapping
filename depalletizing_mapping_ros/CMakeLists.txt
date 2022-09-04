@@ -8,6 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(catkin REQUIRED
         roscpp
         sensor_msgs
+        geometry_msgs
         tf
         depalletizing_mapping_base
         depalletizing_mapping_core
@@ -31,6 +32,7 @@ catkin_package(
         CATKIN_DEPENDS
             roscpp
             sensor_msgs
+            geometry_msgs
             tf
             depalletizing_mapping_base
             depalletizing_mapping_core

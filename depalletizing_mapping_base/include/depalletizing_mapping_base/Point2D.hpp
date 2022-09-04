@@ -26,7 +26,8 @@ public:
     float DistanceBetweenOther(const Point2D& other) const;
 
 private:
-    float mX, mZ;
+    float mX;
+    float mZ;
 };
 
 }

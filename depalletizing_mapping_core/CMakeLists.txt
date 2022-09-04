@@ -46,6 +46,7 @@ include_directories(            # Specify locations of header files
 ## Declare a cpp library
 add_library(${PROJECT_NAME}
         src/MapDataNode.cpp
+        src/QuickHull.cpp
         src/KMeans.cpp
         src/PlaneModel.cpp
         src/Ransac.cpp

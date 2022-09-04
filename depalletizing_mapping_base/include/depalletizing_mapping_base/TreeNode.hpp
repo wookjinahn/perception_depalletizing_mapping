@@ -36,8 +36,8 @@ public:
 	void SetDepth(int depth);
 	void SetCapacity(int capacity);
 
-	void ProcessData(std::vector<Point3D>& points);
-    void ProcessData();
+	void RunTreeProcess(std::vector<Point3D>& points);
+    void RunTreeProcess();
 
 private:
     void insertTreeNode(std::vector<Point3D>& points);

@@ -6,5 +6,6 @@
 #include "MapDataNode.hpp"
 #include "PlaneModel.hpp"
 #include "Ransac.hpp"
+#include "QuickHull.hpp"
 
 #endif //PERCEPTION_DEPALLETIZING_MAPPING_DEPALLETIZING_MAPPING_CORE_HPP

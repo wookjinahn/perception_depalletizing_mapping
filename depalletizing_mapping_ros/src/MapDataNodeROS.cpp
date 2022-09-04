@@ -39,6 +39,7 @@ namespace depalletizing_mapping
             if (!std::isnan (*iter_x) && !std::isnan (*iter_y) && !std::isnan (*iter_z))
             {
                 Point3D pointXYZ = { *iter_x, *iter_z, *iter_y };
+//                Point3D pointXYZ = { *iter_x, *iter_y, *iter_z };
                 SetInputPoint(pointXYZ);
             }
         }
@@ -46,22 +47,21 @@ namespace depalletizing_mapping
 
     std::vector<float> MapDataNodeROS::ToPointCloud2Msgs(std::string frame_id, sensor_msgs::PointCloud2& output_pointcloud2)
     {
+        std::vector<Point3D> detectedPlanarPoints = GetDetectedPlanarPoints();
         std::vector<float> centerPoint;
         centerPoint.reserve(3);
         float planarCenterX = 0;
         float planarCenterY = 0;
         float planarCenterZ = 0;
 
-        Run();
-
         sensor_msgs::PointCloud pointcloud_msgs;
 
         pointcloud_msgs.header.frame_id = frame_id;
         pointcloud_msgs.header.stamp = ros::Time::now();
-        pointcloud_msgs.points.resize(GetKMeans().GetOutputData().size());
+        pointcloud_msgs.points.resize(detectedPlanarPoints.size());
 
         for (int i = 0; i < pointcloud_msgs.points.size(); i++) {
-            Point3D outData = GetKMeans().GetOutputData()[i];
+            Point3D outData = detectedPlanarPoints[i];
             pointcloud_msgs.points[i].x = outData.GetX();
             pointcloud_msgs.points[i].y = outData.GetY();
             pointcloud_msgs.points[i].z = -(outData.GetZ());
@@ -72,7 +72,7 @@ namespace depalletizing_mapping
 
         sensor_msgs::convertPointCloudToPointCloud2(pointcloud_msgs, output_pointcloud2);
 
-        centerPoint = { planarCenterX / GetKMeans().GetOutputData().size(), planarCenterY / GetKMeans().GetOutputData().size(), planarCenterZ / GetKMeans().GetOutputData().size() };
+        centerPoint = { planarCenterX / detectedPlanarPoints.size(), planarCenterY / detectedPlanarPoints.size(), planarCenterZ / detectedPlanarPoints.size() };
         return centerPoint;
     }
 
@@ -92,6 +92,24 @@ namespace depalletizing_mapping
             depalletizing_mapping_msgs.points[i].x = x;
             depalletizing_mapping_msgs.points[i].y = -(mCameraHeight-y);
             depalletizing_mapping_msgs.points[i].z = z;
+        }
+    }
+
+    void MapDataNodeROS::ToPolygonMsgs(std::string frame_id, geometry_msgs::PolygonStamped& polygon_msgs)
+    {
+        polygon_msgs.header.frame_id = frame_id;
+        polygon_msgs.header.stamp = ros::Time::now();
+        polygon_msgs.polygon.points.resize(GetDetectedPlanarPolygon().size());
+
+        for (int i = 0; i < GetDetectedPlanarPolygon().size(); i++)
+        {
+            float x = GetDetectedPlanarPolygon()[i].GetX();
+            float y = GetDetectedPlanarPolygon()[i].GetY();
+            float z = -(GetDetectedPlanarPolygon()[i].GetZ());
+
+            polygon_msgs.polygon.points[i].x = x;
+            polygon_msgs.polygon.points[i].y = y;
+            polygon_msgs.polygon.points[i].z = z;
         }
     }
 }
