@@ -32,8 +32,8 @@
 
     <node pkg="tf" type="static_transform_publisher" name="map_to_d435_pos" args="0.62 0 1.32 0 0 0 map camera_position 100"/>
     <node pkg="tf" type="static_transform_publisher" name="d435_pos_to_d435_link" args="0 0 0 0 1.5708 0 camera_position /$(arg camera)_link 100"/>
-    <node pkg="tf" type="static_transform_publisher" name="camera_to_depalletizingmap" args="0 0 0 -1.5708 0 0 /$(arg camera)_link height_frame 100"/>
-    <node pkg="tf" type="static_transform_publisher" name="map_to_depalletizingbase" args="0.62 0 0 -1.5708 0 -1.5708 map base_frame 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="camera_to_depalletizingmap" args="0 0 0 -1.5708 0 0 /$(arg camera)_link depalletizing_frame 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_depalletizingbase" args="0.62 0 0 -1.5708 0 -1.5708 map depalletizing_base_frame 100"/>
     
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_camera)/rviz/depalletizing_demo.rviz" required="true" />
   </group>
