@@ -39,7 +39,9 @@ You can find the demo usage [here](https://github.com/wookjinAhn/perception_depa
 **void SetCameraHeight(float cameraHeight) :** is an essential function to use this package. You have to check you camera position height.  
 **void SetRansac(Ransac& ransac) :** is a function to set a specific ransac after constructed MapDataNodeROS object.  
 **void FromPointCloud2Msgs(sensor_msgs::PointCloud2 pointcloud2_msgs) :** is used to read pointcloud2 data from d435 before processing.   
-**std::vector<float> ToPointCloud2Msgs(std::string frame_id, sensor_msgs::PointCloud2& output_pointcloud) :** is used to publish the detected planner region as a pointcloud2 message after processing.     
+**std::vector<float> ToPointCloud2Msgs(std::string frame_id, sensor_msgs::PointCloud2& output_pointcloud) :** is used to publish the pointcloud data of detected planner region as a pointcloud2 message after processing. 
+You can return a center position value of detected planar region.     
+**void ToPolygonMsgs(std::string frame_id, geometry_msgs::PolygonStamped& polygon_msgs) :** is used to publish the polygon of detected planner region as a polygon message after processing.  
 **void ToDepalletizingMapMsgs(std::string frame_id, depalletizing_mapping_msgs::DepalletizingMap& depalletizing_mapping_msgs) :** is used to publish the depalletizing_mapping message after processing.
 
 ### MapTreeNodeROS : is using for data processing.
