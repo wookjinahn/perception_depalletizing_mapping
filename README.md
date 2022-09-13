@@ -1,7 +1,7 @@
 # perception_depalletizing_mapping
 
 ![depalletizing_mapping](depalletizing_mapping_demos/data/depalletizing_mapping.gif)
-
+<img align="right" width="400" height="304" src="depalletizing_mapping_demos/data/detected_polygon_of_planar.gif">
 This package is used to generate depalletizing map for depalletizing system on ROS environment.  
 Package consists **depalletizing_mapping**.
 
