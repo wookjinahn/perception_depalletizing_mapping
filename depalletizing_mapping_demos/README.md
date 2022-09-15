@@ -63,7 +63,7 @@ If you follow the above process, you will have the same result as the figures be
 ## 4. Set your Camera Position infomation
 You **MUST CHECK** your camera position in real world, and set that information in **.launch** file and main process **.cpp** file.  
 In demo files, camera was set by x = 0.62, y = 0, z = 1.32 which unit is meter.
-![copy_for_pkg](data/cmake_camera_position.png)
+![copy_for_pkg](data/cmake_camera_position_kinect.png)
 ![copy_for_pkg](data/demo_src_camera_position.png)
 
 
@@ -74,7 +74,7 @@ cd ~/catkin_ws/src/
 catkin_make -DCMAKE_BUILD_TYPE=Release
 
 # launch file
-roslaunch realsense2_camera depalletizing_demo.launch
+roslaunch depalletizing_mapping_demos depalletizing_demo_kinect.launch
 # run our package
 rosrun depalletizing_demo depalletizing_demo
 ```
