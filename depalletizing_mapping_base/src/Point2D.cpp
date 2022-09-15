@@ -38,7 +38,6 @@ namespace depalletizing_mapping
     }
     bool Point2D::AscendingByX(Point2D& firstPoint, Point2D& secondPoint)
     {
-//        return firstPoint.GetX() < secondPoint.GetX();
         if (firstPoint.GetX() == secondPoint.GetX())
         {
             return firstPoint.GetZ() < firstPoint.GetZ();
@@ -51,7 +50,6 @@ namespace depalletizing_mapping
 
     bool Point2D::AscendingByZ(Point2D& firstPoint, Point2D& secondPoint)
     {
-//        return firstPoint.GetZ() < secondPoint.GetZ();
         if (firstPoint.GetZ() == secondPoint.GetZ())
         {
             return firstPoint.GetX() < firstPoint.GetX();
@@ -63,7 +61,6 @@ namespace depalletizing_mapping
     }
     bool Point2D::DescendingByX(Point2D& firstPoint, Point2D& secondPoint)
     {
-//        return firstPoint.GetX() > secondPoint.GetX();
         if (firstPoint.GetX() == secondPoint.GetX())
         {
             return firstPoint.GetZ() > firstPoint.GetZ();
@@ -76,7 +73,6 @@ namespace depalletizing_mapping
 
     bool Point2D::DescendingByZ(Point2D& firstPoint, Point2D& secondPoint)
     {
-//        return firstPoint.GetZ() > secondPoint.GetZ();
         if (firstPoint.GetZ() == secondPoint.GetZ())
         {
             return firstPoint.GetX() > firstPoint.GetX();

@@ -27,7 +27,6 @@ public:
 
     void SetXYZ(float x, float y, float z) ;
 
-    // sorting
     static bool AscendingByX(Point3D& firstPoint, Point3D& secondPoint);
     static bool AscendingByY(Point3D& firstPoint, Point3D& secondPoint);
     static bool AscendingByZ(Point3D& firstPoint, Point3D& secondPoint);

@@ -127,9 +127,9 @@ namespace depalletizing_mapping
 		return samplingPoints;
 	}
 
-	void DataNode::MakeHeightMap(Point3D& point)		// <<float, float>, float> | < <x,z>, y >
+	void DataNode::MakeHeightMap(Point3D& point)
 	{
-		if (mMapDataPair.find(std::make_pair(point.GetNodeKey().GetX(), point.GetNodeKey().GetZ())) == mMapDataPair.end())	// not exist
+		if (mMapDataPair.find(std::make_pair(point.GetNodeKey().GetX(), point.GetNodeKey().GetZ())) == mMapDataPair.end())
 		{
 			mMapDataPair.insert({ std::make_pair(point.GetNodeKey().GetX(), point.GetNodeKey().GetZ()), point.GetY() });
 		}

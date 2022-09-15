@@ -47,16 +47,11 @@ namespace depalletizing_mapping_rviz_plugin
 		void updateVisualization();
 
 	private:
-		// Callback for incoming ROS messages
 		void processMessage(const depalletizing_mapping_msgs::DepalletizingMap::ConstPtr& msg);
 
 		boost::mutex mMutex;
-		// Storage for the list of visuals
-		// circular buffer where data gets popped from the front (oldest) and pushed to the back (newest)
 		boost::circular_buffer<boost::shared_ptr<DepalletizingMapVisual>> mVisuals;
 
-		// User-editable property variables.
-//		rviz::IntProperty* mQueueSizeProperty;
 		rviz::RosTopicProperty* mDepalletizingMapTopicProperty;
 		rviz::IntProperty* mHistoryLengthProperty;
 		rviz::FloatProperty* mAlphaProperty;

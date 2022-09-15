@@ -19,11 +19,7 @@
 #include "depalletizing_mapping_rviz_plugin/DepalletizingMapVisual.hpp"
 
 namespace depalletizing_mapping_rviz_plugin
-// Process when Add Heightmap plugin :  Constructor -> onInitialize (-> MFDClass::onInitialize(), updateHistoryLength())
-//         when Remove Heightmap plugin : Destructor
-// Process when Topic was set : reset (MFDClass::reset(), mVisuals.clear()) -> processMessage
 {
-	// Constructor, onInitialize function operate when Set plugin on Display panel
     DepalletizingMapDisplay::DepalletizingMapDisplay()
 	{
 		mHistoryLengthProperty = new rviz::IntProperty("History Length", 1,
@@ -43,12 +39,11 @@ namespace depalletizing_mapping_rviz_plugin
 												 SLOT(updateVisualization()));
 	}
 
-	DepalletizingMapDisplay::~DepalletizingMapDisplay()	// when plugin remove on Display panel
+	DepalletizingMapDisplay::~DepalletizingMapDisplay()
 	{
 	}
 
-	// This is where we instantiate all the workings of the class.
-	void DepalletizingMapDisplay::onInitialize()	// when activate on Displays panel
+	void DepalletizingMapDisplay::onInitialize()
 	{
 		boost::mutex::scoped_lock lock(mMutex);
 
@@ -56,7 +51,6 @@ namespace depalletizing_mapping_rviz_plugin
 		updateHistoryLength();
 	}
 
-	// Clear the visuals by deleting their objects.
 	void DepalletizingMapDisplay::reset()
 	{
 		boost::mutex::scoped_lock lock(mMutex);
@@ -81,10 +75,8 @@ namespace depalletizing_mapping_rviz_plugin
 		}
 	}
 
-	// Callback for incoming ROS messages
 	void DepalletizingMapDisplay::processMessage(const depalletizing_mapping_msgs::DepalletizingMap::ConstPtr& msg)
 	{
-        ROS_INFO("processMessgae");
 		boost::mutex::scoped_lock lock(mMutex);
 		Ogre::Quaternion orientation;
 		Ogre::Vector3 position;
@@ -95,13 +87,10 @@ namespace depalletizing_mapping_rviz_plugin
 													  msg->header.stamp,
 													  position, orientation))
 		{
-            ROS_INFO("DDD");
 			ROS_DEBUG( "Error transforming from frame '%s' to frame '%s'", msg->header.frame_id.c_str(), qPrintable( fixed_frame_ ));
 			return;
 		}
 
-		// We are keeping a circular buffer of visual pointers.
-		// This gets the next one, or creates and stores it if the buffer is not full
 		boost::shared_ptr<DepalletizingMapVisual> visual;
 
         ROS_INFO("processMessgae boost::shared_ptr<DepalletizingMapVisual> visual");
@@ -121,7 +110,6 @@ namespace depalletizing_mapping_rviz_plugin
 
 		float alpha = mAlphaProperty->getFloat();
 		Ogre::ColourValue color = mColorProperty->getOgreColor();
-//		visual->SetColor(color.r, color.g, color.b, alpha);
 		visual->SetColor(alpha);
 
 		mVisuals.push_back(visual);

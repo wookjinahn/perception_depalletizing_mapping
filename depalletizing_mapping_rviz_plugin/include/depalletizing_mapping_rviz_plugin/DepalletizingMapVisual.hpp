@@ -48,7 +48,6 @@ namespace depalletizing_mapping_rviz_plugin
 
 		boost::shared_ptr<rviz::Shape> mCylinderShape;
 		std::vector<boost::shared_ptr<rviz::Shape>> mCylinderShapes;
-//		boost::shared_ptr<std::vector<rviz::Shape>> mCylinderShapes;
 	};
 }
 

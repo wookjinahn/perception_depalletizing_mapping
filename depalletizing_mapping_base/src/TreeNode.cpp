@@ -111,6 +111,7 @@ namespace depalletizing_mapping
 	void TreeNode::SetDepth(int depth)
 	{
 		mDepth = depth;
+		mMapDataNode->SetResolutionByBoundingBox(mDepth);
 	}
 
 	void TreeNode::SetCapacity(int capacity)

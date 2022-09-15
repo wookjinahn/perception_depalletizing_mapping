@@ -23,26 +23,16 @@ namespace depalletizing_mapping_rviz_plugin
 	{
 		mSceneManager = sceneManager;
 		mFrameNode = parentNode->createChildSceneNode();
-//		mCylinderShapes.resize(msgSize);
-//		for (int i = 0; i < msgSize; i++)
-//		{
-//			mCylinderShapes[i].reset(new rviz::Shape(rviz::Shape::Cylinder, mSceneManager, mFrameNode));
-//		}
-// 		-> move to SetMessgae Function
 	}
 
     DepalletizingMapVisual::~DepalletizingMapVisual()
 	{
-		// Destroy the frame node.
 		mSceneManager->destroySceneNode(mFrameNode);
 	}
 
-//	scale.x is diameter in x direction, scale.y in y direction, by setting these to different values you get an ellipse instead of a circle.
-//	Use scale.z to specify the height.
 	void DepalletizingMapVisual::SetMessage(const depalletizing_mapping_msgs::DepalletizingMap::ConstPtr& msg)
 	{
         ROS_INFO("SetMessage");
-		// move from constructor for solve core dumped!
 		int msgSize = msg->points.size();
 		mCylinderShapes.resize(msgSize);
 		for (int i = 0; i < msgSize; i++)
@@ -58,10 +48,6 @@ namespace depalletizing_mapping_rviz_plugin
 		cylinderPositions.resize(msgSize);
 		std::vector<Ogre::Quaternion> cylinderOrientations;
 		cylinderOrientations.resize(msgSize);
-
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//		std::cout << msg->points.size() << ", " << mCylinderShapes.size() << std::endl;
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		for (int i = 0; i < msgSize; i++)
 		{

@@ -39,7 +39,6 @@ namespace depalletizing_mapping
             if (!std::isnan (*iter_x) && !std::isnan (*iter_y) && !std::isnan (*iter_z))
             {
                 Point3D pointXYZ = { *iter_x, *iter_z, *iter_y };
-//                Point3D pointXYZ = { *iter_x, *iter_y, *iter_z };
                 SetInputPoint(pointXYZ);
             }
         }

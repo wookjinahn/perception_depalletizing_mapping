@@ -62,9 +62,7 @@ private:
 	double mResolution;
     BoundingBox mBoundingBox;
 
-//	std::unordered_map<std::pair<float, float>, float> mMapDataPair; // not allowed. ref : https://www.techiedelight.com/use-std-pair-key-std-unordered_map-cpp/
 	std::unordered_map<std::pair<float, float>, float, pair_hash> mMapDataPair;
-//	std::map<std::pair<float, float>, float> mMapDataPair;
 
 	std::vector<Point3D> mInputPoints;
 	std::vector<Point3D> mOutputPoints;
