@@ -71,10 +71,10 @@ Licensed under the MIT License.
     <param name="subordinate_delay_off_master_usec" type="int" value="$(arg subordinate_delay_off_master_usec)"/>
   </node>
 
-    <node pkg="tf" type="static_transform_publisher" name="map_to_kinect_pos" args="0.62 0 0.75 0 0 0 map camera_position 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_kinect_pos" args="0.62 0 1.32 0 0 0 map camera_position 100"/>
     <node pkg="tf" type="static_transform_publisher" name="kinect_pos_to_kinect_base" args="0 0 0 0 1.5708 0 camera_position camera_base 100"/>
     <node pkg="tf" type="static_transform_publisher" name="kinect_rgb_to_depalletizingmap" args="0 0 0 0 0 1.5708 rgb_camera_link depalletizing_frame 100"/>
-    <node pkg="tf" type="static_transform_publisher" name="depalletizingmap_to_depalletizingbase" args="0 0.75 0 0 0 0 depalletizing_frame depalletizing_base_frame 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="depalletizingmap_to_depalletizingbase" args="0 1.32 0 0 0 0 depalletizing_frame depalletizing_base_frame 100"/>
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find depalletizing_mapping_demos)/demo/depalletizing_demo_kinect.rviz" required="true" />
 </launch>
