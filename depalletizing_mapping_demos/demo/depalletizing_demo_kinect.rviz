@@ -109,7 +109,7 @@ Visualization Manager:
                       {}
       Update Interval: 0
       Value: true
-    - Alpha: 1
+    - Alpha: 0.5
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
         Max Value: 10
@@ -129,9 +129,9 @@ Visualization Manager:
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
-      Size (Pixels): 3
+      Size (Pixels): 1
       Size (m): 0.009999999776482582
-      Style: Flat Squares
+      Style: Points
       Topic: /points2
       Unreliable: false
       Use Fixed Frame: true
@@ -225,10 +225,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5097963213920593
+      Pitch: 0.7647959589958191
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.0553975105285645
+      Yaw: 4.245401382446289
     Saved: ~
 Window Geometry:
   Displays:
@@ -249,4 +249,4 @@ Window Geometry:
     collapsed: true
   Width: 1389
   X: 603
-  Y: 200
+  Y: 170
