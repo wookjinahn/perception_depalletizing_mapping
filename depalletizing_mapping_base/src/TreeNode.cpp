@@ -42,10 +42,6 @@ namespace depalletizing_mapping
 		, mCapacity(capacity)
 	{
 		mCapacityPoints.reserve(mCapacity);
-//        mMapDataNode->SetBoundingBox(mBoundindBox);
-//        std::cout << "constructor End" << std::endl;
-//		mMapDataNode->SetResolutionByBoundingBox(mDepth);
-//        std::cout << "constructor End" << std::endl;
 	}
 
 	TreeNode::TreeNode(const BoundingBox& boundingBox, int depth)
@@ -68,11 +64,6 @@ namespace depalletizing_mapping
 
 	TreeNode::~TreeNode()
 	{
-//		if (mMapDataNode != nullptr)
-//		{
-//			delete mMapDataNode;
-//			mMapDataNode = nullptr;
-//		}
 	}
 
 	BoundingBox TreeNode::GetBoundary() const
@@ -143,7 +134,7 @@ namespace depalletizing_mapping
 
     void TreeNode::insertTreeNode()
     {
-        std::vector<Point3D> points = mMapDataNode->SamplingPoints(5000);
+        std::vector<Point3D> points = mMapDataNode->SamplingPoints(100000);
 
         for (int i = 0; i < points.size(); i++)
         {

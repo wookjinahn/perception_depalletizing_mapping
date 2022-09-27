@@ -66,6 +66,12 @@ namespace depalletizing_mapping
         return mMaxIteration;
     }
 
+    void Ransac::SetParams(float threshold, int upperPointsNum)
+    {
+        mModelThreshold = threshold;
+        mUpperPointsNum = upperPointsNum;
+    }
+
     std::vector<Point3D> Ransac::GetData() const
     {
         return mData;
@@ -106,25 +112,24 @@ namespace depalletizing_mapping
 		return true;
 	}
 
-	void Ransac::RunMulti()
-	{
-		int upperPointsNum = 100;
-		int getrandomOfUpper = 50;
+    void Ransac::RunMulti()
+    {
+        int upperPointsNum = mUpperPointsNum;
 
         std::vector<Point3D> upperPoints = getUpperPoints(upperPointsNum);
-        // for shuffle
+
         auto rng = std::default_random_engine {};
         std::shuffle(std::begin(upperPoints), std::end(upperPoints), rng);
 
         mBestModelParameters.clear();
         mResultData.clear();
-        mInlierNum = 0;
-        for (int i = 0; i < getrandomOfUpper; i++)
-        {
-            std::vector<Point3D> randomPoints = getRandomPoints(upperPoints);       // 가까운 거 50개 중 랜덤
 
-            mModel.FindParametersWithRandom(randomPoints);            // mModel->mParameters에 들어가 있음.
-            int inlierNum = getInlierNum(randomPoints);             // 가까운 거 뽑은 50개들 중에서 inlier
+//        for (int i = 0; i < upperPointsNum; i++)
+        for (int i = 0; i < upperPointsNum; i++)
+        {
+            std::vector<Point3D> randomPoints = getRandomPoints(upperPoints);   // upperPoints에서 랜덤으로 점 3개를 가져옴.
+            mModel.FindParametersWithRandom(randomPoints);  // 가져온 랜점 점 3개로 planar parameter를 찾음.
+            int inlierNum = getInlierNum(upperPoints); // 찾은 parameter로 inlier가 갯수 가져옴.
 
             if (mInlierNum < inlierNum)    // update -> 가장 inlier 많은 파라미터 get
             {
@@ -132,6 +137,7 @@ namespace depalletizing_mapping
                 mInlierNum = inlierNum;
             }
         }
+
         if (!mBestModelParameters.empty())
         {
             GetResult();
@@ -141,7 +147,7 @@ namespace depalletizing_mapping
                 mResultModel.push_back(bestModel);
             }
         }
-	}
+    }
 
 	void Ransac::GetResult()
 	{

@@ -36,6 +36,11 @@ namespace depalletizing_mapping
         mRansac = ransac;
     }
 
+    void MapDataNode::SetRansacParams(float threshold, int upperPointsNum)
+    {
+        mRansac.SetParams(threshold, upperPointsNum);
+    }
+
     KMeans MapDataNode::GetKMeans() const
     {
         return mKMeans;

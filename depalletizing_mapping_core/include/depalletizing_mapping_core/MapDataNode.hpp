@@ -21,6 +21,7 @@ namespace depalletizing_mapping
         void SetPlaneModel(PlaneModel& planeModel);
         Ransac GetRansac() const;
         void SetRansac(Ransac& ransac);
+        void SetRansacParams(float threshold, int upperPointsNum);
         KMeans GetKMeans() const;
         void SetKMeans(KMeans& kmeans);
         QuickHull GetQuickHull() const;

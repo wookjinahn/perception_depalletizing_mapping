@@ -29,6 +29,7 @@ namespace depalletizing_mapping
         void SetModelThreshold(float modelThreshold);
         void SetMaxIteration (int maxiteration);
         int GetMaxIteration() const;
+        void SetParams(float threshold, int upperPointsNum);
 
 		std::vector<Point3D> GetData() const;
 		std::vector<float> GetBestModelParameters() const;
@@ -59,6 +60,7 @@ namespace depalletizing_mapping
 
 		int mMaxIteration = 0;
 		float mModelThreshold = 0;
+        int mUpperPointsNum = 400;
 		std::vector<float> mBestModelParameters;
 		int mInlierNum = 0;
 	};
