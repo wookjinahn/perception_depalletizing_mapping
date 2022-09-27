@@ -118,22 +118,18 @@ namespace depalletizing_mapping
 
         std::vector<Point3D> upperPoints = getUpperPoints(upperPointsNum);
 
-        auto rng = std::default_random_engine {};
-        std::shuffle(std::begin(upperPoints), std::end(upperPoints), rng);
-
         mBestModelParameters.clear();
         mResultData.clear();
 
-//        for (int i = 0; i < upperPointsNum; i++)
         for (int i = 0; i < upperPointsNum; i++)
         {
-            std::vector<Point3D> randomPoints = getRandomPoints(upperPoints);   // upperPoints에서 랜덤으로 점 3개를 가져옴.
-            mModel.FindParametersWithRandom(randomPoints);  // 가져온 랜점 점 3개로 planar parameter를 찾음.
-            int inlierNum = getInlierNum(upperPoints); // 찾은 parameter로 inlier가 갯수 가져옴.
+            std::vector<Point3D> randomPoints = getRandomPoints(upperPoints);
+            mModel.FindParametersWithRandom(randomPoints);
+            int inlierNum = getInlierNum(upperPoints);
 
-            if (mInlierNum < inlierNum)    // update -> 가장 inlier 많은 파라미터 get
+            if (mInlierNum < inlierNum)
             {
-                mBestModelParameters = mModel.GetParameters();        // get mModel->mParameters
+                mBestModelParameters = mModel.GetParameters();
                 mInlierNum = inlierNum;
             }
         }

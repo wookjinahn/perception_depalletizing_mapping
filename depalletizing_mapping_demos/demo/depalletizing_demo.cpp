@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud.h>
 #include <sensor_msgs/PointCloud2.h>    // subscribe d435 pointcloud
@@ -22,6 +24,9 @@ void depalletizing_callback(const sensor_msgs::PointCloud2ConstPtr& pointcloud2_
     // set camera position height
     float cameraHeight = 1.32f;     // 1.32 m
     dataNode.SetCameraHeight(cameraHeight);
+
+    // set Ransac parameters. thershold : 0.01m, upperPointsNum : 400.
+    dataNode.SetRansacParams(0.01, 400);
 
     // get raw data
     dataNode.FromPointCloud2Msgs(*pointcloud2_msg);
@@ -77,7 +82,7 @@ int main(int argc, char** argv)
     tf::TransformBroadcaster br;
     brListener = &br;
 
-    ros::Subscriber sub = pc_nh.subscribe("/camera/depth/color/points", 1, depalletizing_callback);
+    ros::Subscriber sub = pc_nh.subscribe("/points2", 1, depalletizing_callback);
 
     ros::spin();
 }
