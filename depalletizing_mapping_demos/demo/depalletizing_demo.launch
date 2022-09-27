@@ -35,7 +35,7 @@
     <node pkg="tf" type="static_transform_publisher" name="camera_to_depalletizingmap" args="0 0 0 -1.5708 0 0 /$(arg camera)_link depalletizing_frame 100"/>
     <node pkg="tf" type="static_transform_publisher" name="map_to_depalletizingbase" args="0.62 0 0 -1.5708 0 -1.5708 map depalletizing_base_frame 100"/>
     
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_camera)/rviz/depalletizing_demo.rviz" required="true" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find depalletizing_mapping_demos)/demo/depalletizing_demo.rviz" required="true" />
   </group>
   
 </launch>

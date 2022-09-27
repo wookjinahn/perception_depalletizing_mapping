@@ -12,7 +12,6 @@
   <depend>roscpp</depend>
   <depend>sensor_msgs</depend>
   <depend>tf</depend>
-  <depend>camel-euclid-vector</depend>
   <depend>depalletizing_mapping_base</depend>
   <depend>depalletizing_mapping_core</depend>
   <depend>depalletizing_mapping_ros</depend>

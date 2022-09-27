@@ -12,8 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
         depalletizing_mapping_ros
         )
 
-find_package(camel-euclid-vector REQUIRED)
-
 catkin_package(
         INCLUDE_DIRS
         #            include
