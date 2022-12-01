@@ -58,8 +58,10 @@ public:
 	void FromPCD(const std::string &inputPath);
 	void ToPCD(const std::string &outputPath);
 
+protected:
+    double mResolution;
+
 private:
-	double mResolution;
     BoundingBox mBoundingBox;
 
 	std::unordered_map<std::pair<float, float>, float, pair_hash> mMapDataPair;

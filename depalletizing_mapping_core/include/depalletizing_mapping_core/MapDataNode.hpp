@@ -37,6 +37,8 @@ namespace depalletizing_mapping
         void runRansac();
         void runKMeansClustering();
         void runQuickHull();
+        void runOutlierRemoval();
+        void filteringData(int xIndex, int zIndex, int** visited, std::vector<Point3D>& filteredData, int gridX, int gridZ);
 
         Ransac mRansac;
         PlaneModel mPlaneModel;
@@ -45,6 +47,10 @@ namespace depalletizing_mapping
 
         std::vector<Point3D> mDetectedPlanarPoints;
         std::vector<Point3D> mDetectedPlanarPolygon;
+
+        float** mFilteredDataMat;
+        int** mVisitedMat;
+        std::vector<Point3D> mFilteredData;
     };
 }
 
